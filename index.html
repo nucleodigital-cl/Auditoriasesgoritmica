@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PACSEJ — Protocolo de Auditoría Crítica de Sesgoritmos Jurídicos</title>
+<title>PACSEJ — Auditoría de IA bajo el Estándar del EU AI Act</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
 --bg: #FFFFFF;
@@ -19,20 +19,25 @@
 --accent: #2B6CB0;
 --accent2: #ED8936;
 --accent3: #4FD1C5;
+--red: #E53E3E;
+--orange: #DD6B20;
+--green: #38A169;
 --font-serif: 'Cormorant Garamond', Georgia, serif;
 --font-inst: 'Instrument Serif', serif;
 --font-mono: 'DM Mono', monospace;
+--font-sans: 'Inter', system-ui, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
 background: var(--bg);
 color: var(--text);
-font-family: var(--font-serif);
-font-size: 18px;
+font-family: var(--font-sans);
+font-size: 17px;
 line-height: 1.7;
 }
-/* NAV */
+
+/* ── NAV ── */
 nav {
 position: fixed;
 top: 0; left: 0; right: 0;
@@ -41,7 +46,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 1rem 3rem;
-background: rgba(255, 255, 255, 0.98);
+background: rgba(255,255,255,0.98);
 backdrop-filter: blur(10px);
 border-bottom: 1px solid var(--border);
 }
@@ -69,20 +74,32 @@ color: white;
 padding: 0.6rem 1.2rem;
 text-decoration: none;
 font-family: var(--font-mono);
-font-size: 0.75rem;
+font-size: 0.72rem;
 font-weight: bold;
 border-radius: 4px;
 transition: 0.3s;
+white-space: nowrap;
 }
-.nav-cta:hover { background: #DD6B20; }
-/* HERO */
+.nav-cta:hover { background: #C05621; transform: translateY(-1px); }
+
+/* ── HERO ── */
 #inicio {
-padding: 10rem 3rem 5rem;
-min-height: 80vh;
+padding: 11rem 3rem 6rem;
+min-height: 85vh;
 display: flex;
 flex-direction: column;
 justify-content: center;
-background: linear-gradient(to bottom, #FFFFFF, var(--bg2));
+background: linear-gradient(160deg, #FFFFFF 0%, #EBF4FF 60%, #F0FFF4 100%);
+position: relative;
+overflow: hidden;
+}
+#inicio::before {
+content: '';
+position: absolute;
+top: -200px; right: -200px;
+width: 700px; height: 700px;
+background: radial-gradient(circle, rgba(79,209,197,0.08) 0%, transparent 70%);
+pointer-events: none;
 }
 .hero-tag {
 font-family: var(--font-mono);
@@ -93,23 +110,86 @@ padding: 0.3rem 0.8rem;
 margin-bottom: 2rem;
 width: fit-content;
 text-transform: uppercase;
-letter-spacing: 0.1em;
+letter-spacing: 0.12em;
+background: rgba(43,108,176,0.04);
 }
 .hero-title {
 font-family: var(--font-inst);
-font-size: clamp(3rem, 7vw, 5.5rem);
-line-height: 1.1;
-max-width: 1000px;
+font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+line-height: 1.08;
+max-width: 980px;
+color: var(--text);
 }
 .hero-title em { color: var(--accent3); font-style: italic; }
+.hero-title .highlight {
+color: var(--accent);
+font-style: normal;
+}
 .hero-subtitle {
 margin-top: 2rem;
-max-width: 650px;
-font-size: 1.3rem;
+max-width: 640px;
+font-size: 1.15rem;
 color: var(--text-muted);
-line-height: 1.6;
+line-height: 1.7;
+font-family: var(--font-sans);
 }
-/* SECTIONS */
+.hero-actions {
+display: flex;
+gap: 1rem;
+align-items: center;
+margin-top: 2.5rem;
+flex-wrap: wrap;
+}
+.btn-primary {
+background: var(--accent);
+color: white;
+padding: 1rem 2.2rem;
+text-decoration: none;
+font-family: var(--font-mono);
+font-size: 0.82rem;
+font-weight: bold;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+border-radius: 4px;
+transition: 0.3s;
+display: inline-block;
+}
+.btn-primary:hover {
+background: #1A4E8A;
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(43,108,176,0.3);
+}
+.btn-secondary {
+color: var(--accent);
+text-decoration: none;
+font-family: var(--font-mono);
+font-size: 0.78rem;
+border-bottom: 1px solid var(--accent);
+padding-bottom: 2px;
+transition: 0.3s;
+}
+.btn-secondary:hover { color: var(--accent3); border-color: var(--accent3); }
+.hero-meta {
+margin-top: 1.8rem;
+display: flex;
+gap: 2rem;
+flex-wrap: wrap;
+}
+.hero-meta-item {
+font-family: var(--font-mono);
+font-size: 0.7rem;
+color: var(--text-muted);
+display: flex;
+align-items: center;
+gap: 0.4rem;
+}
+.hero-meta-item::before {
+content: '✓';
+color: var(--green);
+font-weight: bold;
+}
+
+/* ── SECTIONS ── */
 section {
 padding: 6rem 3rem;
 max-width: 1200px;
@@ -130,22 +210,144 @@ letter-spacing: 0.15em;
 }
 .section-title {
 font-family: var(--font-inst);
-font-size: clamp(2.5rem, 5vw, 3.5rem);
+font-size: clamp(2.2rem, 4.5vw, 3.3rem);
 margin-bottom: 1.5rem;
 line-height: 1.2;
 }
 .section-intro {
 max-width: 750px;
-font-size: 1.1rem;
+font-size: 1.05rem;
 color: var(--text-muted);
 margin-bottom: 3rem;
 line-height: 1.8;
 }
-/* TAXONOMÍA */
+
+/* ── URGENCIA EU AI ACT ── */
+.urgency-section {
+background: linear-gradient(135deg, #1A365D 0%, #2D3748 100%);
+color: white;
+padding: 5rem 3rem;
+}
+.urgency-inner {
+max-width: 1200px;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 1fr 420px;
+gap: 5rem;
+align-items: center;
+}
+.urgency-label {
+font-family: var(--font-mono);
+font-size: 0.7rem;
+text-transform: uppercase;
+letter-spacing: 0.15em;
+color: var(--accent3);
+margin-bottom: 1.2rem;
+display: block;
+}
+.urgency-title {
+font-family: var(--font-inst);
+font-size: clamp(2rem, 4vw, 3rem);
+line-height: 1.15;
+margin-bottom: 1.5rem;
+}
+.urgency-title span { color: var(--accent3); }
+.urgency-body {
+font-size: 1rem;
+line-height: 1.8;
+opacity: 0.88;
+margin-bottom: 1.5rem;
+}
+.urgency-reg-badge {
+display: inline-block;
+background: rgba(79,209,197,0.15);
+border: 1px solid rgba(79,209,197,0.4);
+color: var(--accent3);
+font-family: var(--font-mono);
+font-size: 0.72rem;
+padding: 0.4rem 0.9rem;
+border-radius: 3px;
+margin-top: 0.5rem;
+}
+/* Traffic Light */
+.traffic-light-wrap {
+display: flex;
+flex-direction: column;
+gap: 0;
+}
+.traffic-light-title {
+font-family: var(--font-mono);
+font-size: 0.72rem;
+text-transform: uppercase;
+letter-spacing: 0.12em;
+color: rgba(255,255,255,0.5);
+margin-bottom: 1.2rem;
+}
+.tl-row {
+display: flex;
+align-items: stretch;
+margin-bottom: 8px;
+border-radius: 6px;
+overflow: hidden;
+background: rgba(255,255,255,0.05);
+border: 1px solid rgba(255,255,255,0.08);
+transition: 0.3s;
+}
+.tl-row.highlighted {
+background: rgba(237,137,54,0.18);
+border-color: rgba(237,137,54,0.5);
+box-shadow: 0 0 20px rgba(237,137,54,0.15);
+transform: scale(1.02);
+}
+.tl-dot {
+width: 56px;
+min-height: 56px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.4rem;
+flex-shrink: 0;
+}
+.tl-dot.red { background: rgba(229,62,62,0.25); }
+.tl-dot.orange { background: rgba(237,137,54,0.3); }
+.tl-dot.yellow { background: rgba(236,201,75,0.2); }
+.tl-dot.green { background: rgba(56,161,105,0.2); }
+.tl-content {
+padding: 0.7rem 1rem;
+flex: 1;
+}
+.tl-level {
+font-family: var(--font-mono);
+font-size: 0.65rem;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+opacity: 0.6;
+margin-bottom: 0.2rem;
+}
+.tl-desc {
+font-size: 0.85rem;
+opacity: 0.9;
+line-height: 1.4;
+}
+.tl-badge {
+display: inline-block;
+background: var(--accent2);
+color: white;
+font-family: var(--font-mono);
+font-size: 0.6rem;
+padding: 0.15rem 0.5rem;
+border-radius: 2px;
+margin-left: 0.5rem;
+vertical-align: middle;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+
+/* ── TAXONOMÍA CARDS (hover reveal) ── */
 .taxonomy-grid {
 display: grid;
 grid-template-columns: 1fr;
-gap: 2rem;
+gap: 1.5rem;
 margin-top: 3rem;
 }
 .sesgo-card {
@@ -153,60 +355,110 @@ background: var(--bg2);
 border: 1px solid var(--border);
 border-left: 4px solid var(--accent);
 padding: 2.5rem;
-transition: 0.3s;
+transition: all 0.35s ease;
+cursor: default;
+position: relative;
 }
 .sesgo-card:hover {
 border-color: var(--accent3);
-transform: translateX(5px);
 background: var(--surface);
-box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+box-shadow: 0 6px 30px rgba(43,108,176,0.10);
+transform: translateX(6px);
 }
+.sesgo-card:nth-child(1) { border-left-color: var(--red); }
 .sesgo-card:nth-child(2) { border-left-color: var(--accent2); }
 .sesgo-card:nth-child(3) { border-left-color: var(--accent3); }
 .sesgo-card:nth-child(4) { border-left-color: #9F7AEA; }
+.sesgo-header { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 1rem; flex-wrap: wrap; }
 .sesgo-number {
 font-family: var(--font-mono);
-font-size: 0.7rem;
+font-size: 0.68rem;
 color: var(--text-muted);
-margin-bottom: 0.5rem;
 text-transform: uppercase;
 letter-spacing: 0.1em;
 }
+.sesgo-risk-badge {
+font-family: var(--font-mono);
+font-size: 0.62rem;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+padding: 0.2rem 0.6rem;
+border-radius: 2px;
+background: rgba(229,62,62,0.1);
+color: var(--red);
+border: 1px solid rgba(229,62,62,0.25);
+}
 .sesgo-title {
 font-family: var(--font-inst);
-font-size: 1.8rem;
-color: var(--accent);
-margin-bottom: 1rem;
+font-size: 1.75rem;
+color: var(--text);
+margin-bottom: 0.8rem;
 }
 .sesgo-def {
-font-size: 1rem;
+font-size: 0.97rem;
 color: var(--text-muted);
-margin-bottom: 1.5rem;
 line-height: 1.8;
 }
+/* Hover hint */
+.sesgo-hint {
+margin-top: 1.2rem;
+font-family: var(--font-mono);
+font-size: 0.68rem;
+color: var(--accent2);
+text-transform: uppercase;
+letter-spacing: 0.08em;
+transition: opacity 0.3s;
+display: flex;
+align-items: center;
+gap: 0.4rem;
+}
+.sesgo-hint::after { content: '→'; }
+.sesgo-card:hover .sesgo-hint { opacity: 0; height: 0; margin: 0; overflow: hidden; }
+/* Case study — hidden, revealed on hover */
 .sesgo-case {
-background: rgba(43, 108, 176, 0.05);
+max-height: 0;
+overflow: hidden;
+opacity: 0;
+transition: max-height 0.45s ease, opacity 0.35s ease, padding 0.3s ease, margin 0.3s ease;
+background: rgba(43,108,176,0.04);
 border-left: 3px solid var(--accent);
-padding: 1.2rem;
-margin-top: 1rem;
-font-size: 0.95rem;
+margin-top: 0;
+padding: 0 1.3rem;
+font-size: 0.93rem;
+}
+.sesgo-card:hover .sesgo-case {
+max-height: 600px;
+opacity: 1;
+padding: 1.3rem;
+margin-top: 1.5rem;
 }
 .sesgo-case strong {
 color: var(--accent);
 font-family: var(--font-mono);
-font-size: 0.75rem;
+font-size: 0.7rem;
 text-transform: uppercase;
 letter-spacing: 0.1em;
 display: block;
-margin-bottom: 0.5rem;
+margin-bottom: 0.6rem;
 }
 .sesgo-cts {
-margin-top: 1rem;
-padding-top: 1rem;
-border-top: 1px solid var(--border);
-font-size: 0.9rem;
+max-height: 0;
+overflow: hidden;
+opacity: 0;
+transition: max-height 0.45s ease 0.1s, opacity 0.35s ease 0.1s, padding 0.3s ease, margin 0.3s ease;
+margin-top: 0;
+padding: 0;
+border-top: 1px solid transparent;
+font-size: 0.88rem;
 font-style: italic;
 color: var(--text-muted);
+}
+.sesgo-card:hover .sesgo-cts {
+max-height: 200px;
+opacity: 1;
+padding-top: 1rem;
+margin-top: 1rem;
+border-top-color: var(--border);
 }
 .sesgo-cts::before {
 content: "Dimensión CTS: ";
@@ -214,7 +466,108 @@ font-style: normal;
 font-weight: 600;
 color: var(--text);
 }
-/* MARCO REGULATORIO */
+
+/* ── MID-TEST BANNER ── */
+.mid-test-banner {
+background: linear-gradient(135deg, #EBF8FF 0%, #E6FFFA 100%);
+border: 1px solid rgba(43,108,176,0.2);
+border-left: 5px solid var(--accent);
+padding: 2rem 2.5rem;
+margin: 2rem 0;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 2rem;
+flex-wrap: wrap;
+}
+.mid-test-banner p {
+font-family: var(--font-inst);
+font-size: 1.4rem;
+color: var(--text);
+max-width: 600px;
+line-height: 1.3;
+}
+.mid-test-banner p em { color: var(--accent); font-style: italic; }
+.btn-banner {
+background: var(--accent);
+color: white;
+padding: 0.85rem 1.8rem;
+text-decoration: none;
+font-family: var(--font-mono);
+font-size: 0.75rem;
+font-weight: bold;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+border-radius: 4px;
+transition: 0.3s;
+white-space: nowrap;
+flex-shrink: 0;
+}
+.btn-banner:hover { background: #1A4E8A; transform: translateY(-2px); }
+.btn-banner-note {
+font-family: var(--font-mono);
+font-size: 0.65rem;
+color: var(--text-muted);
+margin-top: 0.4rem;
+}
+
+/* ── CHECKLIST ── */
+.checklist-section {
+background: var(--bg2);
+padding: 6rem 3rem;
+border-top: 1px solid var(--border);
+border-bottom: 1px solid var(--border);
+}
+.checklist-inner {
+max-width: 1200px;
+margin: 0 auto;
+}
+.checklist-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+gap: 1.5rem;
+margin-top: 3rem;
+}
+.check-item {
+background: var(--surface);
+border: 1px solid var(--border);
+padding: 1.8rem;
+display: flex;
+gap: 1.2rem;
+align-items: flex-start;
+transition: 0.3s;
+}
+.check-item:hover {
+border-color: var(--accent3);
+box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+transform: translateY(-2px);
+}
+.check-icon {
+width: 36px;
+height: 36px;
+background: linear-gradient(135deg, var(--accent), var(--accent3));
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 1rem;
+flex-shrink: 0;
+margin-top: 2px;
+}
+.check-text h4 {
+font-family: var(--font-inst);
+font-size: 1.15rem;
+margin-bottom: 0.4rem;
+color: var(--text);
+}
+.check-text p {
+font-size: 0.88rem;
+color: var(--text-muted);
+line-height: 1.6;
+}
+
+/* ── MARCO REGULATORIO ── */
 .reg-intro-box {
 background: var(--bg3);
 border-left: 4px solid var(--accent);
@@ -227,9 +580,7 @@ font-size: 1.5rem;
 margin-bottom: 1rem;
 color: var(--accent);
 }
-.reg-section {
-margin-bottom: 4rem;
-}
+.reg-section { margin-bottom: 4rem; }
 .reg-section-header {
 display: flex;
 gap: 1.5rem;
@@ -244,15 +595,8 @@ font-size: 3rem;
 color: var(--accent);
 opacity: 0.4;
 }
-.reg-section-title h3 {
-font-family: var(--font-inst);
-font-size: 2rem;
-margin-bottom: 0.3rem;
-}
-.reg-section-title p {
-font-size: 0.95rem;
-color: var(--text-muted);
-}
+.reg-section-title h3 { font-family: var(--font-inst); font-size: 2rem; margin-bottom: 0.3rem; }
+.reg-section-title p { font-size: 0.95rem; color: var(--text-muted); }
 .reg-grid {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -270,59 +614,16 @@ border-color: var(--accent);
 transform: translateY(-3px);
 box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
-.reg-card.primary {
-border-left: 4px solid var(--accent);
-background: var(--surface);
-}
-.reg-card-icon {
-font-size: 2rem;
-margin-bottom: 1rem;
-display: block;
-}
-.reg-card-title {
-font-family: var(--font-inst);
-font-size: 1.3rem;
-margin-bottom: 0.5rem;
-color: var(--accent);
-}
-.reg-card-ref {
-font-family: var(--font-mono);
-font-size: 0.7rem;
-color: var(--text-muted);
-margin-bottom: 1rem;
-font-style: italic;
-}
-.reg-card-desc {
-font-size: 0.95rem;
-color: var(--text-muted);
-margin-bottom: 1.5rem;
-line-height: 1.7;
-}
-.reg-card-key {
-font-family: var(--font-mono);
-font-size: 0.7rem;
-text-transform: uppercase;
-color: var(--accent2);
-margin: 1.5rem 0 0.8rem;
-letter-spacing: 0.1em;
-}
-.reg-card-list {
-list-style: none;
-padding-left: 0;
-}
-.reg-card-list li {
-padding-left: 1.2rem;
-margin-bottom: 0.8rem;
-border-left: 2px solid var(--border);
-font-size: 0.9rem;
-color: var(--text-muted);
-line-height: 1.6;
-}
-.reg-card-list li strong {
-color: var(--text);
-font-weight: 600;
-}
-/* AUTORA */
+.reg-card.primary { border-left: 4px solid var(--accent); background: var(--surface); }
+.reg-card-title { font-family: var(--font-inst); font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--accent); }
+.reg-card-ref { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-bottom: 1rem; font-style: italic; }
+.reg-card-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.7; }
+.reg-card-key { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; color: var(--accent2); margin: 1.5rem 0 0.8rem; letter-spacing: 0.1em; }
+.reg-card-list { list-style: none; padding-left: 0; }
+.reg-card-list li { padding-left: 1.2rem; margin-bottom: 0.8rem; border-left: 2px solid var(--border); font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+.reg-card-list li strong { color: var(--text); font-weight: 600; }
+
+/* ── AUTORA ── */
 .author-section {
 background: var(--bg2);
 padding: 6rem 3rem;
@@ -345,34 +646,44 @@ align-items: center;
 justify-content: center;
 font-size: 4rem;
 color: white;
-opacity: 0.3;
+opacity: 0.35;
 }
-.author-info h3 {
-font-family: var(--font-inst);
-font-size: 2.5rem;
-margin-bottom: 0.5rem;
-color: var(--accent);
-}
-.author-title {
+.author-info h3 { font-family: var(--font-inst); font-size: 2.5rem; margin-bottom: 0.4rem; color: var(--accent); }
+.author-speciality {
 font-family: var(--font-mono);
-font-size: 0.75rem;
+font-size: 0.78rem;
 text-transform: uppercase;
 color: var(--accent2);
+letter-spacing: 0.12em;
+margin-bottom: 0.5rem;
+}
+.author-subtitle {
+font-family: var(--font-mono);
+font-size: 0.7rem;
+text-transform: uppercase;
+color: var(--text-muted);
 letter-spacing: 0.1em;
 margin-bottom: 2rem;
+opacity: 0.8;
 }
-.author-bio {
-font-size: 1rem;
-color: var(--text-muted);
-line-height: 1.9;
-margin-bottom: 1.5rem;
-}
-.author-links {
+.author-bio { font-size: 0.97rem; color: var(--text-muted); line-height: 1.9; margin-bottom: 1.5rem; }
+.author-credentials {
 display: flex;
 gap: 1rem;
 flex-wrap: wrap;
-margin-top: 2rem;
+margin-bottom: 1.5rem;
 }
+.author-cred {
+background: var(--surface);
+border: 1px solid var(--border);
+padding: 0.5rem 1rem;
+font-family: var(--font-mono);
+font-size: 0.68rem;
+text-transform: uppercase;
+color: var(--text-muted);
+letter-spacing: 0.05em;
+}
+.author-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
 .author-link {
 font-family: var(--font-mono);
 font-size: 0.7rem;
@@ -383,22 +694,20 @@ padding: 0.5rem 1rem;
 text-decoration: none;
 transition: 0.3s;
 }
-.author-link:hover {
-border-color: var(--accent);
-color: var(--accent);
-}
-/* ASISTENTE IA */
+.author-link:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── ASISTENTE IA ── */
 .ai-container {
-max-width: 600px;
+max-width: 620px;
 margin: 3rem auto;
 border: 1px solid var(--border);
-border-radius: 8px;
+border-radius: 10px;
 overflow: hidden;
 background: white;
-box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+box-shadow: 0 8px 30px rgba(0,0,0,0.10);
 }
 .ai-header {
-background: var(--accent);
+background: linear-gradient(135deg, var(--accent), #1A4E8A);
 color: white;
 padding: 1rem 1.5rem;
 font-family: var(--font-mono);
@@ -411,32 +720,42 @@ align-items: center;
 }
 .ai-status {
 font-size: 0.65rem;
-background: rgba(255,255,255,0.2);
-padding: 0.3rem 0.6rem;
+background: rgba(255,255,255,0.15);
+padding: 0.3rem 0.7rem;
 border-radius: 3px;
+display: flex;
+align-items: center;
+gap: 0.4rem;
 }
-.ai-chat {
-padding: 2rem;
-min-height: 300px;
-background: var(--bg2);
-}
+.ai-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); display: inline-block; }
+.ai-chat { padding: 1.8rem; min-height: 300px; background: var(--bg2); }
 .chat-bubble {
 background: white;
-padding: 1rem 1.2rem;
+padding: 0.95rem 1.2rem;
 border-radius: 8px;
 margin-bottom: 1rem;
-font-size: 0.95rem;
+font-size: 0.93rem;
 border: 1px solid var(--border);
 line-height: 1.6;
 }
 .chat-bubble.user {
 background: var(--bg3);
-margin-left: 2rem;
+margin-left: 2.5rem;
+font-style: italic;
+color: var(--text-muted);
 }
-.chat-bubble.ai {
-border-left: 3px solid var(--accent3);
-margin-right: 2rem;
+.chat-bubble.ai { border-left: 3px solid var(--accent3); margin-right: 2.5rem; }
+.chat-suggestion {
+background: rgba(79,209,197,0.06);
+border: 1px dashed rgba(79,209,197,0.4);
+padding: 0.7rem 1rem;
+border-radius: 6px;
+margin-top: 1rem;
+font-family: var(--font-mono);
+font-size: 0.7rem;
+color: var(--text-muted);
 }
+.chat-suggestion strong { color: var(--accent3); display: block; margin-bottom: 0.3rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
 .ai-footer {
 padding: 1rem 1.5rem;
 background: white;
@@ -446,85 +765,27 @@ font-family: var(--font-mono);
 font-size: 0.7rem;
 color: var(--text-muted);
 }
-/* NOTICIAS */
+
+/* ── NOTICIAS ── */
 .news-section {
 padding: 6rem 3rem;
 background: var(--bg2);
 border-top: 1px solid var(--border);
 }
-.news-header {
-max-width: 1200px;
-margin: 0 auto 3rem;
-}
-.news-header h2 {
-font-family: var(--font-inst);
-font-size: clamp(2.5rem, 5vw, 3.5rem);
-margin-bottom: 1rem;
-}
-.news-header p {
-font-size: 1.1rem;
-color: var(--text-muted);
-max-width: 750px;
-}
-.news-container {
-max-width: 1200px;
-margin: 0 auto;
-display: grid;
-grid-template-columns: 2fr 1fr;
-gap: 3rem;
-}
-.news-feed {
-background: var(--surface);
-border: 1px solid var(--border);
-padding: 2rem;
-border-radius: 8px;
-}
-.news-feed h3 {
-font-family: var(--font-mono);
-font-size: 0.8rem;
-text-transform: uppercase;
-color: var(--accent2);
-margin-bottom: 1.5rem;
-letter-spacing: 0.1em;
-}
-.news-item {
-padding: 1.5rem 0;
-border-bottom: 1px solid var(--border);
-}
-.news-item:last-child {
-border-bottom: none;
-}
-.news-item-date {
-font-family: var(--font-mono);
-font-size: 0.7rem;
-color: var(--text-muted);
-margin-bottom: 0.5rem;
-}
-.news-item-title {
-font-size: 1.1rem;
-font-weight: 600;
-margin-bottom: 0.5rem;
-}
-.news-item-title a {
-color: var(--text);
-text-decoration: none;
-transition: 0.3s;
-}
-.news-item-title a:hover {
-color: var(--accent);
-}
-.news-item-source {
-font-family: var(--font-mono);
-font-size: 0.7rem;
-color: var(--accent3);
-text-transform: uppercase;
-}
-.news-item-excerpt {
-font-size: 0.9rem;
-color: var(--text-muted);
-line-height: 1.6;
-margin-top: 0.5rem;
-}
+.news-header { max-width: 1200px; margin: 0 auto 3rem; }
+.news-header h2 { font-family: var(--font-inst); font-size: clamp(2.2rem, 4.5vw, 3.3rem); margin-bottom: 1rem; }
+.news-header p { font-size: 1.05rem; color: var(--text-muted); max-width: 750px; }
+.news-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
+.news-feed { background: var(--surface); border: 1px solid var(--border); padding: 2rem; border-radius: 8px; }
+.news-feed h3 { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; color: var(--accent2); margin-bottom: 1.5rem; letter-spacing: 0.1em; }
+.news-item { padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+.news-item:last-child { border-bottom: none; }
+.news-item-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.news-item-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+.news-item-title a { color: var(--text); text-decoration: none; transition: 0.3s; }
+.news-item-title a:hover { color: var(--accent); }
+.news-item-source { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent3); text-transform: uppercase; }
+.news-item-excerpt { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-top: 0.5rem; }
 .analysis-box {
 background: linear-gradient(135deg, var(--accent) 0%, var(--accent3) 100%);
 border-radius: 8px;
@@ -534,63 +795,39 @@ height: fit-content;
 position: sticky;
 top: 100px;
 }
-.analysis-box h3 {
-font-family: var(--font-inst);
-font-size: 1.8rem;
-margin-bottom: 1rem;
-}
-.analysis-box p {
-font-size: 0.95rem;
-line-height: 1.7;
-margin-bottom: 1rem;
-opacity: 0.95;
-}
-.analysis-item {
-background: rgba(255, 255, 255, 0.15);
-padding: 1rem;
-border-radius: 4px;
-margin-bottom: 1rem;
-backdrop-filter: blur(10px);
-}
-.analysis-item h4 {
-font-size: 1rem;
-font-weight: 600;
-margin-bottom: 0.5rem;
-}
-.analysis-item p {
-font-size: 0.85rem;
-margin-bottom: 0;
-}
-.loading {
-text-align: center;
-padding: 2rem;
-color: var(--text-muted);
-font-family: var(--font-mono);
-font-size: 0.8rem;
-}
-/* CTA SECTION */
+.analysis-box h3 { font-family: var(--font-inst); font-size: 1.8rem; margin-bottom: 1rem; }
+.analysis-box p { font-size: 0.93rem; line-height: 1.7; margin-bottom: 1rem; opacity: 0.95; }
+.analysis-item { background: rgba(255,255,255,0.15); padding: 1rem; border-radius: 4px; margin-bottom: 1rem; backdrop-filter: blur(10px); }
+.analysis-item h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+.analysis-item p { font-size: 0.85rem; margin-bottom: 0; }
+.loading { text-align: center; padding: 2rem; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.8rem; }
+
+/* ── CTA SECTION ── */
 .cta-section {
-background: linear-gradient(135deg, var(--accent) 0%, var(--accent3) 100%);
+background: linear-gradient(135deg, var(--accent) 0%, #1A4E8A 50%, var(--accent3) 100%);
 color: white;
 text-align: center;
-padding: 6rem 3rem;
+padding: 7rem 3rem;
+position: relative;
+overflow: hidden;
 }
-.cta-section h2 {
-font-family: var(--font-inst);
-font-size: 2.5rem;
-margin-bottom: 1.5rem;
+.cta-section::before {
+content: '';
+position: absolute;
+bottom: -100px; left: 50%;
+transform: translateX(-50%);
+width: 600px; height: 300px;
+background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+pointer-events: none;
 }
-.cta-section p {
-font-size: 1.1rem;
-margin-bottom: 2rem;
-opacity: 0.95;
-}
+.cta-section h2 { font-family: var(--font-inst); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+.cta-section p { font-size: 1.1rem; margin-bottom: 2.5rem; opacity: 0.92; max-width: 580px; margin-left: auto; margin-right: auto; }
 .btn-large {
 background: white;
 color: var(--accent);
 padding: 1.2rem 3rem;
 font-family: var(--font-mono);
-font-size: 0.9rem;
+font-size: 0.88rem;
 font-weight: bold;
 text-decoration: none;
 text-transform: uppercase;
@@ -599,437 +836,611 @@ border-radius: 4px;
 display: inline-block;
 transition: 0.3s;
 }
-.btn-large:hover {
-transform: translateY(-2px);
-box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-/* FOOTER */
+.btn-large:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.cta-note { margin-top: 1.2rem; font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.6; }
+
+/* ── FOOTER ── */
 footer {
 padding: 4rem 3rem;
 text-align: center;
 background: var(--bg2);
 border-top: 1px solid var(--border);
 }
-.footer-main {
-font-family: var(--font-mono);
-font-size: 0.8rem;
-text-transform: uppercase;
-color: var(--accent);
-letter-spacing: 0.1em;
-margin-bottom: 1rem;
-}
-.footer-sub {
-font-size: 0.85rem;
-color: var(--text-muted);
-line-height: 1.8;
-margin-bottom: 1.5rem;
-}
-.footer-legal {
-font-family: var(--font-mono);
-font-size: 0.7rem;
-color: var(--text-muted);
-padding-top: 1.5rem;
-border-top: 1px solid var(--border);
-max-width: 800px;
-margin: 0 auto;
-}
-/* RESPONSIVE */
-@media (max-width: 968px) {
-.news-container {
-grid-template-columns: 1fr;
-}
-.analysis-box {
-position: relative;
-top: 0;
-}
+.footer-main { font-family: var(--font-mono); font-size: 0.8rem; text-transform: uppercase; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 1rem; }
+.footer-sub { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem; }
+.footer-legal { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); padding-top: 1.5rem; border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+.urgency-inner { grid-template-columns: 1fr; gap: 3rem; }
+.news-container { grid-template-columns: 1fr; }
+.analysis-box { position: relative; top: 0; }
 }
 @media (max-width: 768px) {
-nav { padding: 1rem; }
+nav { padding: 1rem 1.5rem; }
 .nav-links { display: none; }
 section { padding: 4rem 1.5rem; }
-.hero-title { font-size: 3rem; }
+.urgency-section { padding: 4rem 1.5rem; }
+.checklist-section { padding: 4rem 1.5rem; }
+.author-section { padding: 4rem 1.5rem; }
+.news-section { padding: 4rem 1.5rem; }
+.hero-title { font-size: 2.8rem; }
 .reg-grid { grid-template-columns: 1fr; }
 .author-content { grid-template-columns: 1fr; text-align: center; }
 .author-img { margin: 0 auto; }
 .author-links { justify-content: center; }
+.mid-test-banner { flex-direction: column; text-align: center; }
+.author-credentials { justify-content: center; }
 }
 </style>
 </head>
 <body>
-<!-- NAV -->
+
+<!-- ════════════════ NAV ════════════════ -->
 <nav>
-<a href="#inicio" class="nav-logo">PACSEJ</a>
-<ul class="nav-links">
-<li><a href="#que-es">¿Qué es?</a></li>
-<li><a href="#taxonomia">Taxonomía</a></li>
-<li><a href="#marco">Marco Legal</a></li>
-<li><a href="#asistente">Asistente IA</a></li>
-<li><a href="#noticias">Noticias</a></li>
-<li><a href="#autora">Autora</a></li>
-</ul>
-<a href="https://form.typeform.com/to/lwooln58" target="_blank" class="nav-cta">INICIAR AUDITORÍA</a>
+  <a href="#inicio" class="nav-logo">PACSEJ</a>
+  <ul class="nav-links">
+    <li><a href="#que-es">¿Qué es?</a></li>
+    <li><a href="#urgencia">EU AI Act</a></li>
+    <li><a href="#taxonomia">Riesgos</a></li>
+    <li><a href="#marco">Marco Legal</a></li>
+    <li><a href="#asistente">Asistente IA</a></li>
+    <li><a href="#autora">Autora</a></li>
+  </ul>
+  <a href="https://form.typeform.com/to/lwooln58" target="_blank" class="nav-cta">Diagnóstico Gratuito</a>
 </nav>
-<!-- HERO -->
+
+<!-- ════════════════ HERO ════════════════ -->
 <section id="inicio">
-<span class="hero-tag">Protocolo v3.0 · CTS & Legaltech</span>
-<h1 class="hero-title">Audita el sesgo de <em>cualquier sistema IA</em> en contextos jurídicos.</h1>
-<p class="hero-subtitle">
-PACSEJ es un protocolo de auditoría sociotécnica para identificar y remediar sesgoritmos en sistemas de inteligencia artificial implementados en estudios jurídicos, empresas y organizaciones independientes.
-</p>
+  <span class="hero-tag">Protocolo v3.0 · EU AI Act · Legaltech Chile</span>
+  <h1 class="hero-title">
+    Asegura tu Firma:<br>
+    Auditoría de IA bajo el<br>
+    <em>Estándar del EU AI Act</em>
+  </h1>
+  <p class="hero-subtitle">
+    Evita sanciones y garantiza la ética algorítmica. Valida si tus herramientas de software
+    cumplen con la normativa europea y chilena en 30 minutos.
+  </p>
+  <div class="hero-actions">
+    <a href="https://form.typeform.com/to/lwooln58" target="_blank" class="btn-primary">
+      Obtener Diagnóstico de Cumplimiento Gratuito
+    </a>
+    <a href="#urgencia" class="btn-secondary">¿Por qué ahora?</a>
+  </div>
+  <div class="hero-meta">
+    <span class="hero-meta-item">16–18 preguntas</span>
+    <span class="hero-meta-item">Informe de criticidad inmediato</span>
+    <span class="hero-meta-item">Sin registro requerido</span>
+    <span class="hero-meta-item">Gratis · 30 minutos</span>
+  </div>
 </section>
-<!-- QUÉ ES -->
+
+<!-- ════════════════ URGENCIA EU AI ACT ════════════════ -->
+<div id="urgencia" class="urgency-section">
+  <div class="urgency-inner">
+    <div>
+      <span class="urgency-label">Urgencia Normativa · Reglamento (UE) 2024/1689</span>
+      <h2 class="urgency-title">
+        ¿Tu software de IA<br>
+        es de <span>Alto Riesgo</span>?
+      </h2>
+      <p class="urgency-body">
+        El EU AI Act — en vigor desde 2024 — clasifica como <strong>sistemas de Alto Riesgo</strong>
+        todos los sistemas de IA utilizados en administración de justicia, asesoría legal,
+        predicción de recidivismo, perfilado jurídico y análisis de contratos sensibles.
+      </p>
+      <p class="urgency-body">
+        Si tu estudio o empresa usa IA para cualquiera de estos fines, tienes obligaciones
+        inmediatas de transparencia, supervisión humana y documentación técnica —
+        con sanciones de hasta el <strong>3% de la facturación global anual</strong>.
+      </p>
+      <span class="urgency-reg-badge">Reglamento (UE) 2024/1689 — Anexo III, Punto 8</span>
+    </div>
+    <div>
+      <div class="traffic-light-wrap">
+        <div class="traffic-light-title">Clasificación EU AI Act por nivel de riesgo</div>
+        <div class="tl-row">
+          <div class="tl-dot red">🔴</div>
+          <div class="tl-content">
+            <div class="tl-level">Prohibido</div>
+            <div class="tl-desc">Scoring social, reconocimiento facial masivo, manipulación subliminal</div>
+          </div>
+        </div>
+        <div class="tl-row highlighted">
+          <div class="tl-dot orange">🟠</div>
+          <div class="tl-content">
+            <div class="tl-level">Alto Riesgo <span class="tl-badge">Sector Legal</span></div>
+            <div class="tl-desc">Predicción de sentencias, perfilado jurídico, IA en RRHH y contratos</div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot yellow">🟡</div>
+          <div class="tl-content">
+            <div class="tl-level">Riesgo Limitado</div>
+            <div class="tl-desc">Chatbots, generadores de texto, sistemas de recomendación</div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot green">🟢</div>
+          <div class="tl-content">
+            <div class="tl-level">Riesgo Mínimo</div>
+            <div class="tl-desc">Filtros de spam, automatización básica, IA de videojuegos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ QUÉ ES ════════════════ -->
 <section id="que-es" class="section-divider">
-<span class="section-label">01. Propósito</span>
-<h2 class="section-title">El sesgo no es un error técnico.<br>Es una coproducción sociotécnica.</h2>
-<p class="section-intro">
-Los sistemas de inteligencia artificial que operan en contextos jurídicos no son herramientas neutras.
-Son artefactos que coproducen conocimiento jurídico mientras invisibilizan las desigualdades estructurales
-bajo una apariencia de objetividad técnica. PACSEJ permite identificar, clasificar y remediar los
-<strong>sesgoritmos jurídicos</strong>: mecanismos algorítmicos que participan en la validación del
-conocimiento legal mientras reproducen inequidades sistémicas.
-</p>
+  <span class="section-label">01. Propósito</span>
+  <h2 class="section-title">El sesgo no es un error técnico.<br>Es un riesgo jurídico y reputacional.</h2>
+  <p class="section-intro">
+    Los sistemas de inteligencia artificial que operan en contextos jurídicos no son herramientas neutras.
+    Son artefactos que reproducen desigualdades estructurales bajo una apariencia de objetividad técnica.
+    PACSEJ permite identificar, clasificar y remediar los <strong>sesgoritmos jurídicos</strong>:
+    mecanismos algorítmicos que participan en la validación del conocimiento legal mientras exponen a
+    tu firma a sanciones regulatorias, litigios y daño reputacional.
+  </p>
 </section>
-<!-- TAXONOMÍA -->
+
+<!-- ════════════════ TAXONOMÍA ════════════════ -->
 <section id="taxonomia" class="section-divider">
-<span class="section-label">02. Taxonomía de Sesgoritmos Jurídicos</span>
-<h2 class="section-title">Los cuatro sesgoritmos.<br>Una tipología crítica.</h2>
-<p class="section-intro">
-A partir del análisis de casos judicializados internacionales, esta investigación propone una tipología
-que va más allá de las clasificaciones técnicas convencionales. Cada sesgoritmo representa una forma
-particular de coproducción sociotécnica donde se materializan valores, relaciones de poder y visiones
-específicas sobre qué cuenta como "justo", "legal" o "verdadero" (Jasanoff, 2004).
-</p>
-<div class="taxonomy-grid">
-<!-- SESGO 1 -->
-<div class="sesgo-card">
-<div class="sesgo-number">Sesgoritmo 01</div>
-<h3 class="sesgo-title">Estructural o Institucional</h3>
-<p class="sesgo-def">
-Emerge cuando los algoritmos reproducen y amplifican desigualdades sistémicas incorporadas en
-estructuras institucionales y datos históricos. No se origina en el código sino en decisiones sobre
-qué datos son relevantes, qué patrones deben identificarse y qué grupos son considerados "de riesgo".
-</p>
-<div class="sesgo-case">
-<strong>Caso paradigmático: SyRI (Países Bajos)</strong>
-El sistema SyRI convirtió la pobreza en un problema de vigilancia automatizada, siendo anulado por
-el Tribunal de Distrito de La Haya por violar derechos fundamentales. El algoritmo cruzaba 17 bases
-de datos estatales para identificar "fraude" en subsidios sociales, pero en la práctica vigilaba
-desproporcionadamente a barrios de bajos ingresos y población migrante.
-</div>
-<p class="sesgo-cts">
-Manifiesta cómo la coproducción entre Estado, tecnología y políticas de bienestar puede erosionar
-derechos fundamentales bajo el imaginario de la eficiencia administrativa (Jasanoff, 2004).
-</p>
-</div>
-<!-- SESGO 2 -->
-<div class="sesgo-card">
-<div class="sesgo-number">Sesgoritmo 02</div>
-<h3 class="sesgo-title">Laboral o de Productividad Algorítmica</h3>
-<p class="sesgo-def">
-Se produce cuando la IA traduce la lógica empresarial de rendimiento en métricas aparentemente neutras
-que penalizan desproporcionadamente a trabajadores en situaciones vulnerables. El algoritmo actúa como
-mediador de relaciones de poder entre capital y trabajo.
-</p>
-<div class="sesgo-case">
-<strong>Caso paradigmático: Riders (Italia)</strong>
-En el caso Deliveroo/Italia, el algoritmo disciplinaba digitalmente a los riders mediante sistemas
-automatizados de evaluación que penalizaban ausencias sin distinguir sus causas. Un trabajador enfermo
-o que ejercía su derecho a huelga era tratado algorítmicamente igual que uno que incumplía deliberadamente,
-resultando en exclusión del sistema de asignación de pedidos.
-</div>
-<p class="sesgo-cts">
-Ilustra la construcción social de la tecnología (SCOT): diferentes grupos sociales relevantes interpretan
-el mismo algoritmo de formas contradictorias según sus intereses—eficiencia para empresas, control para
-trabajadores, discriminación para jueces (Bijker &amp; Pinch, 1987).
-</p>
-</div>
-<!-- SESGO 3 -->
-<div class="sesgo-card">
-<div class="sesgo-number">Sesgoritmo 03</div>
-<h3 class="sesgo-title">Explicabilidad y Transparencia</h3>
-<p class="sesgo-def">
-Asociado a la opacidad técnica que impide comprender, auditar o cuestionar decisiones algorítmicas.
-Esta opacidad crea lo que Doyle (2023) denomina "infraestructura de irresponsabilidad": nadie puede
-explicar por qué el algoritmo decide como lo hace.
-</p>
-<div class="sesgo-case">
-<strong>Caso paradigmático: SCHUFA (Alemania)</strong>
-El sistema SCHUFA de scoring crediticio operaba como caja negra: negaba créditos sin explicar los
-criterios algorítmicos empleados. El Tribunal de Justicia de la UE (caso C-634/21) determinó que
-esta falta de transparencia violaba el derecho a la explicabilidad establecido en el RGPD, sentando
-precedente sobre la obligación de revelar la lógica automatizada que afecta derechos de las personas.
-</div>
-<p class="sesgo-cts">
-La explicabilidad no es solo un requisito técnico: es una práctica de legitimación social fundamental
-para el funcionamiento democrático del derecho. Sin explicación, no hay derecho a defensa (Hildebrandt, 2015).
-</p>
-</div>
-<!-- SESGO 4 -->
-<div class="sesgo-card">
-<div class="sesgo-number">Sesgoritmo 04</div>
-<h3 class="sesgo-title">Epistémico o de Autoridad Automatizada</h3>
-<p class="sesgo-def">
-Ocurre cuando la autoridad cognitiva del juez o abogado se desplaza hacia la máquina. El algoritmo
-actúa como nuevo actor epistémico capaz de generar enunciados que adquieren fuerza normativa,
-transformando quién tiene derecho a producir verdad jurídica.
-</p>
-<div class="sesgo-case">
-<strong>Caso paradigmático: Corte Constitucional Colombia</strong>
-La Corte Constitucional de Colombia advirtió expresamente sobre los riesgos de la delegación de
-funciones jurisdiccionales a sistemas de IA, estableciendo que aunque la tecnología puede asistir,
-no puede sustituir el razonamiento jurídico humano. El caso evidencia cómo sistemas predictivos
-importados (como COMPAS, diseñado en EE.UU.) imponen ontologías jurídicas ajenas al contexto local.
-</div>
-<p class="sesgo-cts">
-Los sistemas de IA importan ontologías jurídicas predominantemente Anglo-americanas que se exportan
-como estándares técnicos universales, suprimiendo saberes jurídicos plurales y produciendo colonialidad
-algorítmica (Harding, 1986; Yuk Hui, 2016).
-</p>
-</div>
-</div>
+  <span class="section-label">02. Los Cuatro Riesgos Algorítmicos</span>
+  <h2 class="section-title">Traduce el sesgo<br>en riesgo legal concreto.</h2>
+  <p class="section-intro">
+    A partir del análisis de casos judicializados internacionales, PACSEJ propone una tipología
+    orientada a operadores jurídicos: cada sesgoritmo es un vector de responsabilidad legal y
+    daño reputacional. <strong>Pasa el cursor sobre cada tarjeta para ver el caso paradigmático.</strong>
+  </p>
+
+  <div class="taxonomy-grid">
+
+    <!-- SESGO 1 -->
+    <div class="sesgo-card">
+      <div class="sesgo-header">
+        <span class="sesgo-number">Sesgoritmo 01</span>
+        <span class="sesgo-risk-badge">Riesgo Regulatorio Alto</span>
+      </div>
+      <h3 class="sesgo-title">Riesgo de Discriminación Institucional</h3>
+      <p class="sesgo-def">
+        Emerge cuando los algoritmos reproducen y amplifican desigualdades sistémicas
+        incorporadas en estructuras institucionales y datos históricos. No se origina en el código,
+        sino en decisiones sobre qué datos son relevantes y qué grupos son considerados "de riesgo".
+        Genera responsabilidad directa bajo el Art. 6 del EU AI Act y normativa antidiscriminación.
+      </p>
+      <div class="sesgo-hint">Ver caso paradigmático</div>
+      <div class="sesgo-case">
+        <strong>Caso paradigmático: SyRI (Países Bajos, 2020)</strong>
+        El sistema SyRI convirtió la pobreza en un problema de vigilancia automatizada.
+        Fue anulado por el Tribunal de Distrito de La Haya por violar derechos fundamentales.
+        Cruzaba 17 bases de datos estatales para identificar "fraude" en subsidios sociales,
+        pero vigilaba desproporcionadamente barrios de bajos ingresos y población migrante.
+      </div>
+      <p class="sesgo-cts">
+        Manifiesta cómo la coproducción entre Estado, tecnología y políticas de bienestar puede
+        erosionar derechos fundamentales bajo el imaginario de la eficiencia administrativa (Jasanoff, 2004).
+      </p>
+    </div>
+
+    <!-- SESGO 2 -->
+    <div class="sesgo-card">
+      <div class="sesgo-header">
+        <span class="sesgo-number">Sesgoritmo 02</span>
+        <span class="sesgo-risk-badge">Riesgo Laboral Crítico</span>
+      </div>
+      <h3 class="sesgo-title">Riesgo de Discriminación Laboral Algorítmica</h3>
+      <p class="sesgo-def">
+        Se produce cuando la IA traduce la lógica empresarial de rendimiento en métricas aparentemente
+        neutras que penalizan desproporcionadamente a trabajadores en situaciones vulnerables. Activa
+        responsabilidad laboral, sanciones del EU AI Act (Art. 10) y demandas colectivas.
+      </p>
+      <div class="sesgo-hint">Ver caso paradigmático</div>
+      <div class="sesgo-case">
+        <strong>Caso paradigmático: Riders Deliveroo (Italia, 2021)</strong>
+        El algoritmo disciplinaba digitalmente a los riders mediante sistemas automatizados que
+        penalizaban ausencias sin distinguir sus causas. Un trabajador enfermo era tratado igual
+        que uno que incumplía deliberadamente, resultando en exclusión del sistema. El Tribunal de
+        Bolonia declaró la práctica discriminatoria.
+      </div>
+      <p class="sesgo-cts">
+        Ilustra la SCOT: diferentes grupos sociales interpretan el mismo algoritmo de formas
+        contradictorias según sus intereses — eficiencia para empresas, discriminación para jueces (Bijker & Pinch, 1987).
+      </p>
+    </div>
+
+    <!-- ── BANNER INTERRUPCIÓN ESTRATÉGICA ── -->
+    <div class="mid-test-banner">
+      <div>
+        <p>¿Sospechas que tu software actual tiene <em>alguno de estos sesgos</em>? Sal de dudas ahora.</p>
+        <div class="btn-banner-note">Recibe un informe preliminar de criticidad para tu área de Compliance</div>
+      </div>
+      <a href="https://form.typeform.com/to/lwooln58" target="_blank" class="btn-banner">
+        Iniciar Diagnóstico →
+      </a>
+    </div>
+
+    <!-- SESGO 3 -->
+    <div class="sesgo-card">
+      <div class="sesgo-header">
+        <span class="sesgo-number">Sesgoritmo 03</span>
+        <span class="sesgo-risk-badge">Riesgo GDPR / Art. 22</span>
+      </div>
+      <h3 class="sesgo-title">Riesgo de Opacidad (Caja Negra)</h3>
+      <p class="sesgo-def">
+        Asociado a la opacidad técnica que impide comprender, auditar o cuestionar decisiones
+        algorítmicas. Genera lo que Doyle (2023) denomina "infraestructura de irresponsabilidad".
+        Activa el Art. 22 GDPR (derecho a explicabilidad) y el Art. 13 EU AI Act.
+        Sin explicación, no hay derecho a defensa.
+      </p>
+      <div class="sesgo-hint">Ver caso paradigmático</div>
+      <div class="sesgo-case">
+        <strong>Caso paradigmático: SCHUFA (Alemania, TJUE C-634/21)</strong>
+        El sistema SCHUFA de scoring crediticio operaba como caja negra: negaba créditos sin
+        explicar los criterios algorítmicos empleados. El Tribunal de Justicia de la UE determinó
+        que esta falta de transparencia violaba el RGPD, sentando precedente sobre la obligación
+        de revelar la lógica automatizada que afecta derechos.
+      </div>
+      <p class="sesgo-cts">
+        La explicabilidad no es solo un requisito técnico: es una práctica de legitimación social
+        fundamental para el funcionamiento democrático del derecho (Hildebrandt, 2015).
+      </p>
+    </div>
+
+    <!-- SESGO 4 -->
+    <div class="sesgo-card">
+      <div class="sesgo-header">
+        <span class="sesgo-number">Sesgoritmo 04</span>
+        <span class="sesgo-risk-badge">Riesgo de Responsabilidad Profesional</span>
+      </div>
+      <h3 class="sesgo-title">Riesgo de Delegación Jurídica Indebida</h3>
+      <p class="sesgo-def">
+        Ocurre cuando la autoridad cognitiva del juez o abogado se desplaza hacia la máquina.
+        El algoritmo actúa como nuevo actor epistémico generando enunciados con fuerza normativa.
+        Compromete la responsabilidad profesional del abogado y puede invalidar actuaciones judiciales.
+      </p>
+      <div class="sesgo-hint">Ver caso paradigmático</div>
+      <div class="sesgo-case">
+        <strong>Caso paradigmático: Corte Constitucional Colombia (2023)</strong>
+        La Corte Constitucional advirtió expresamente sobre los riesgos de delegar funciones
+        jurisdiccionales a sistemas de IA, estableciendo que la tecnología puede asistir pero no
+        sustituir el razonamiento jurídico humano. Los sistemas predictivos importados (como COMPAS)
+        imponen ontologías jurídicas ajenas al contexto local.
+      </div>
+      <p class="sesgo-cts">
+        Los sistemas de IA importan ontologías jurídicas predominantemente angloamericanas que se
+        exportan como estándares universales, suprimiendo saberes jurídicos plurales (Harding, 1986; Yuk Hui, 2016).
+      </p>
+    </div>
+
+  </div>
 </section>
-<!-- MARCO REGULATORIO -->
+
+<!-- ════════════════ CHECKLIST ════════════════ -->
+<div class="checklist-section">
+  <div class="checklist-inner">
+    <span class="section-label">03. Cobertura de la Auditoría</span>
+    <h2 class="section-title">Qué revisamos por ti.</h2>
+    <p class="section-intro">
+      El diagnóstico PACSEJ cubre los seis ejes de cumplimiento exigidos por el EU AI Act
+      y el GDPR para sistemas de IA de Alto Riesgo en contextos jurídicos.
+    </p>
+    <div class="checklist-grid">
+      <div class="check-item">
+        <div class="check-icon">🔍</div>
+        <div class="check-text">
+          <h4>Transparencia del Algoritmo</h4>
+          <p>Verificamos que el sistema pueda explicar sus decisiones en términos comprensibles para el operador jurídico. Art. 13 EU AI Act.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">📊</div>
+        <div class="check-text">
+          <h4>Calidad de los Datos de Entrenamiento</h4>
+          <p>Auditamos si los datos de entrenamiento representan adecuadamente a todos los grupos afectados, sin sesgo histórico. Art. 10 EU AI Act.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">👥</div>
+        <div class="check-text">
+          <h4>Supervisión Humana Garantizada</h4>
+          <p>Evaluamos si el sistema permite intervención humana efectiva antes, durante y después de la toma de decisiones. Art. 14 EU AI Act.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">⚖️</div>
+        <div class="check-text">
+          <h4>Alineación con GDPR y EU AI Act</h4>
+          <p>Revisamos el cumplimiento de obligaciones documentales y de gobernanza exigidas por el Reglamento (UE) 2024/1689.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">📈</div>
+        <div class="check-text">
+          <h4>Métricas de Sesgo por Grupo Protegido</h4>
+          <p>Analizamos si el proveedor entrega métricas desagregadas por género, etnia, edad y otras categorías protegidas por ley.</p>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">📋</div>
+        <div class="check-text">
+          <h4>Derecho a Explicabilidad (Art. 22 GDPR)</h4>
+          <p>Verificamos que el sistema respete el derecho de las personas a no ser objeto de decisiones basadas únicamente en tratamiento automatizado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ MARCO REGULATORIO ════════════════ -->
 <section id="marco" class="section-divider">
-<span class="section-label">03. Marco Regulatorio</span>
-<h2 class="section-title">La arquitectura jurídica de la gobernanza algorítmica.</h2>
-<div class="reg-intro-box">
-<h3>¿Por qué importa el marco regulatorio?</h3>
-<p>
-Los sistemas de IA en contextos jurídicos no operan en vacío normativo. Están sujetos a múltiples
-capas regulatorias: desde el EU AI Act que los clasifica como sistemas de alto riesgo, hasta el GDPR
-que regula el tratamiento de datos personales, pasando por legislaciones nacionales y marcos éticos
-internacionales. <strong>Conocer qué puede exigirse a un proveedor de IA es el primer paso para una
-gobernanza responsable.</strong>
-</p>
-</div>
-<!-- PILAR EUROPEO -->
-<div class="reg-section">
-<div class="reg-section-header">
-<div class="reg-section-number">01</div>
-<div class="reg-section-title">
-<h3>Pilar Europeo</h3>
-<p>El estándar más avanzado de gobernanza de IA a nivel mundial</p>
-</div>
-</div>
-<div class="reg-grid">
-<div class="reg-card primary">
-<h4 class="reg-card-title">Reglamento de Inteligencia Artificial (EU AI Act)</h4>
-<div class="reg-card-ref">Reglamento (UE) 2024/1689 — Vigente desde 2024</div>
-<p class="reg-card-desc">
-El eje central de la regulación global. Clasifica sistemas según riesgo: prohibido, alto, limitado
-y mínimo. Los sistemas de IA en administración de justicia son <strong>alto riesgo por defecto</strong>
-(Anexo III).
-</p>
-<div class="reg-card-key">Artículos clave:</div>
-<ul class="reg-card-list">
-<li><strong>Art. 6 y Anexo III:</strong> Clasificación de sistemas de alto riesgo en contextos jurídicos</li>
-<li><strong>Art. 13:</strong> Transparencia e información obligatoria a usuarios</li>
-<li><strong>Art. 14:</strong> Supervisión humana efectiva</li>
-<li><strong>Art. 10:</strong> Gobernanza de datos y requisitos de calidad</li>
-</ul>
-</div>
-<div class="reg-card">
-<h4 class="reg-card-title">GDPR — Protección de Datos</h4>
-<div class="reg-card-ref">Reglamento (UE) 2016/679 — Vigente desde 2018</div>
-<p class="reg-card-desc">
-Regula el tratamiento de datos personales y establece el derecho a no ser objeto de decisiones
-basadas únicamente en tratamiento automatizado.
-</p>
-<div class="reg-card-key">Artículos relevantes:</div>
-<ul class="reg-card-list">
-<li><strong>Art. 22:</strong> Derecho a no ser objeto de decisiones automatizadas</li>
-<li><strong>Art. 15:</strong> Derecho de acceso y explicación de la lógica aplicada</li>
-<li><strong>Art. 35:</strong> Evaluación de impacto (DPIA) obligatoria</li>
-</ul>
-</div>
-</div>
-</div>
-<!-- PILAR NACIONAL CHILE -->
-<div class="reg-section">
-<div class="reg-section-header">
-<div class="reg-section-number">02</div>
-<div class="reg-section-title">
-<h3>Marco Nacional — Chile</h3>
-<p>Legislación aplicable en territorio chileno</p>
-</div>
-</div>
-<div class="reg-grid">
-<div class="reg-card primary">
-<h4 class="reg-card-title">Ley sobre Protección de la Vida Privada</h4>
-<div class="reg-card-ref">Ley N° 19.628 — En proceso de reforma</div>
-<p class="reg-card-desc">
-Base del tratamiento de datos personales en Chile. La reforma en trámite incorporará derechos
-ARCO alineados con estándares GDPR.
-</p>
-</div>
-<div class="reg-card">
-<h4 class="reg-card-title">Constitución Política de Chile</h4>
-<div class="reg-card-ref">Art. 19 N° 4 — Rango constitucional</div>
-<p class="reg-card-desc">
-El derecho a la protección de datos personales tiene rango constitucional en Chile desde la
-reforma de 2018, elevando su jerarquía normativa.
-</p>
-</div>
-<div class="reg-card">
-<h4 class="reg-card-title">Política Nacional de Inteligencia Artificial</h4>
-<div class="reg-card-ref">Actualización 2024-2025 — Soft law</div>
-<p class="reg-card-desc">
-Establece principios éticos que tribunales chilenos están comenzando a citar como estándar de
-diligencia en casos de responsabilidad por uso de IA.
-</p>
-</div>
-</div>
-</div>
-<!-- MARCOS ÉTICOS -->
-<div class="reg-section">
-<div class="reg-section-header">
-<div class="reg-section-number">03</div>
-<div class="reg-section-title">
-<h3>Marcos Éticos Internacionales</h3>
-<p>Soft law que opera como estándar interpretativo</p>
-</div>
-</div>
-<div class="reg-grid">
-<div class="reg-card primary">
-<h4 class="reg-card-title">Recomendación UNESCO sobre Ética de la IA</h4>
-<div class="reg-card-ref">Adoptada 2021 — 193 Estados miembro</div>
-<p class="reg-card-desc">
-El estándar global más completo para derechos humanos y tecnología. Vinculante políticamente
-para Estados que la adoptaron (incluido Chile).
-</p>
-</div>
-<div class="reg-card">
-<h4 class="reg-card-title">Principios OCDE sobre IA</h4>
-<div class="reg-card-ref">Adoptados 2019</div>
-<p class="reg-card-desc">
-Fundamentales para gobernanza corporativa. Chile es miembro de OCDE y estos principios informan
-política pública nacional.
-</p>
-</div>
-<div class="reg-card">
-<h4 class="reg-card-title">Estándares IEEE P7000</h4>
-<div class="reg-card-ref">Familia de estándares técnicos</div>
-<p class="reg-card-desc">
-Conjunto de estándares técnicos que operacionalizan principios éticos en código. Ideal para
-auditoría técnica PACSEJ.
-</p>
-</div>
-</div>
-</div>
+  <span class="section-label">04. Marco Regulatorio</span>
+  <h2 class="section-title">La arquitectura jurídica<br>de la gobernanza algorítmica.</h2>
+  <div class="reg-intro-box">
+    <h3>¿Por qué importa el marco regulatorio?</h3>
+    <p>
+      Los sistemas de IA en contextos jurídicos no operan en vacío normativo. Están sujetos a múltiples
+      capas regulatorias: desde el EU AI Act que los clasifica como sistemas de alto riesgo, hasta el GDPR
+      que regula el tratamiento de datos personales, pasando por legislaciones nacionales y marcos éticos
+      internacionales. <strong>Conocer qué puede exigirse a un proveedor de IA es el primer paso para una
+      gobernanza responsable.</strong>
+    </p>
+  </div>
+
+  <!-- PILAR EUROPEO -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-section-number">01</div>
+      <div class="reg-section-title">
+        <h3>Pilar Europeo</h3>
+        <p>El estándar más avanzado de gobernanza de IA a nivel mundial</p>
+      </div>
+    </div>
+    <div class="reg-grid">
+      <div class="reg-card primary">
+        <h4 class="reg-card-title">Reglamento de Inteligencia Artificial (EU AI Act)</h4>
+        <div class="reg-card-ref">Reglamento (UE) 2024/1689 — Vigente desde 2024</div>
+        <p class="reg-card-desc">
+          El eje central de la regulación global. Clasifica sistemas según riesgo: prohibido, alto, limitado
+          y mínimo. Los sistemas de IA en administración de justicia son <strong>alto riesgo por defecto</strong>
+          (Anexo III).
+        </p>
+        <div class="reg-card-key">Artículos clave:</div>
+        <ul class="reg-card-list">
+          <li><strong>Art. 6 y Anexo III:</strong> Clasificación de sistemas de alto riesgo en contextos jurídicos</li>
+          <li><strong>Art. 13:</strong> Transparencia e información obligatoria a usuarios</li>
+          <li><strong>Art. 14:</strong> Supervisión humana efectiva</li>
+          <li><strong>Art. 10:</strong> Gobernanza de datos y requisitos de calidad</li>
+        </ul>
+      </div>
+      <div class="reg-card">
+        <h4 class="reg-card-title">GDPR — Protección de Datos</h4>
+        <div class="reg-card-ref">Reglamento (UE) 2016/679 — Vigente desde 2018</div>
+        <p class="reg-card-desc">
+          Regula el tratamiento de datos personales y establece el derecho a no ser objeto de decisiones
+          basadas únicamente en tratamiento automatizado.
+        </p>
+        <div class="reg-card-key">Artículos relevantes:</div>
+        <ul class="reg-card-list">
+          <li><strong>Art. 22:</strong> Derecho a no ser objeto de decisiones automatizadas</li>
+          <li><strong>Art. 15:</strong> Derecho de acceso y explicación de la lógica aplicada</li>
+          <li><strong>Art. 35:</strong> Evaluación de impacto (DPIA) obligatoria</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PILAR NACIONAL CHILE -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-section-number">02</div>
+      <div class="reg-section-title">
+        <h3>Marco Nacional — Chile</h3>
+        <p>Legislación aplicable en territorio chileno</p>
+      </div>
+    </div>
+    <div class="reg-grid">
+      <div class="reg-card primary">
+        <h4 class="reg-card-title">Ley sobre Protección de la Vida Privada</h4>
+        <div class="reg-card-ref">Ley N° 19.628 — En proceso de reforma</div>
+        <p class="reg-card-desc">
+          Base del tratamiento de datos personales en Chile. La reforma en trámite incorporará derechos
+          ARCO alineados con estándares GDPR.
+        </p>
+      </div>
+      <div class="reg-card">
+        <h4 class="reg-card-title">Constitución Política de Chile</h4>
+        <div class="reg-card-ref">Art. 19 N° 4 — Rango constitucional</div>
+        <p class="reg-card-desc">
+          El derecho a la protección de datos personales tiene rango constitucional en Chile desde la
+          reforma de 2018, elevando su jerarquía normativa.
+        </p>
+      </div>
+      <div class="reg-card">
+        <h4 class="reg-card-title">Política Nacional de IA</h4>
+        <div class="reg-card-ref">Actualización 2024-2025 — Soft law</div>
+        <p class="reg-card-desc">
+          Establece principios éticos que tribunales chilenos están comenzando a citar como estándar de
+          diligencia en casos de responsabilidad por uso de IA.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARCOS ÉTICOS -->
+  <div class="reg-section">
+    <div class="reg-section-header">
+      <div class="reg-section-number">03</div>
+      <div class="reg-section-title">
+        <h3>Marcos Éticos Internacionales</h3>
+        <p>Soft law que opera como estándar interpretativo</p>
+      </div>
+    </div>
+    <div class="reg-grid">
+      <div class="reg-card primary">
+        <h4 class="reg-card-title">Recomendación UNESCO sobre Ética de la IA</h4>
+        <div class="reg-card-ref">Adoptada 2021 — 193 Estados miembro</div>
+        <p class="reg-card-desc">
+          El estándar global más completo para derechos humanos y tecnología. Vinculante políticamente
+          para Estados que la adoptaron (incluido Chile).
+        </p>
+      </div>
+      <div class="reg-card">
+        <h4 class="reg-card-title">Principios OCDE sobre IA</h4>
+        <div class="reg-card-ref">Adoptados 2019</div>
+        <p class="reg-card-desc">
+          Fundamentales para gobernanza corporativa. Chile es miembro de OCDE y estos principios informan
+          política pública nacional.
+        </p>
+      </div>
+      <div class="reg-card">
+        <h4 class="reg-card-title">Estándares IEEE P7000</h4>
+        <div class="reg-card-ref">Familia de estándares técnicos</div>
+        <p class="reg-card-desc">
+          Conjunto de estándares técnicos que operacionalizan principios éticos en código. Ideal para
+          auditoría técnica PACSEJ.
+        </p>
+      </div>
+    </div>
+  </div>
 </section>
-<!-- ASISTENTE IA -->
+
+<!-- ════════════════ ASISTENTE IA ════════════════ -->
 <section id="asistente" class="section-divider">
-<span class="section-label">04. Asistente IA</span>
-<h2 class="section-title">Tu consultor de gobernanza algorítmica.<br>Disponible 24/7.</h2>
-<p class="section-intro">
-El asistente PACSEJ está diseñado para responder las preguntas prácticas que los operadores jurídicos
-necesitan resolver cuando implementan, contratan o impugnan sistemas de inteligencia artificial.
-</p>
-<div class="ai-container">
-<div class="ai-header">
-<span>Asistente PACSEJ · Gobernanza de IA Jurídica</span>
-<span class="ai-status">Beta · Próximamente</span>
-</div>
-<div class="ai-chat">
-<div class="chat-bubble ai">
-Hola. Soy el asistente PACSEJ. Puedo ayudarte con preguntas sobre gobernanza de IA, obligaciones
-del proveedor y remediación de sesgoritmos en contextos jurídicos.
-</div>
-<div class="chat-bubble user">
-¿Qué cláusulas debo incluir en el contrato con mi proveedor de IA para predicción de riesgo penal?
-</div>
-<div class="chat-bubble ai">
-Según el Art. 13 del EU AI Act, los sistemas de alto riesgo deben garantizar transparencia hacia
-los usuarios. Para contratos debes exigir: (1) documentación técnica completa, (2) logs de auditoría
-accesibles, (3) métricas de sesgo desagregadas por grupo protegido...
-</div>
-</div>
-<div class="ai-footer">
-En desarrollo — Suscríbete para acceso anticipado a la versión beta
-</div>
-</div>
+  <span class="section-label">05. Asistente IA</span>
+  <h2 class="section-title">Tu consultor de gobernanza algorítmica.<br>Disponible 24/7.</h2>
+  <p class="section-intro">
+    El asistente PACSEJ responde las preguntas prácticas que los operadores jurídicos necesitan
+    al momento de implementar, contratar o impugnar sistemas de inteligencia artificial.
+  </p>
+  <div class="ai-container">
+    <div class="ai-header">
+      <span>Asistente PACSEJ · Gobernanza de IA Jurídica</span>
+      <span class="ai-status">Beta · Próximamente</span>
+    </div>
+    <div class="ai-chat">
+      <div class="chat-bubble ai">
+        Hola. Soy el asistente PACSEJ. Puedo ayudarte con cumplimiento del EU AI Act,
+        obligaciones del proveedor de IA y remediación de sesgoritmos en contextos jurídicos.
+      </div>
+      <div class="chat-bubble user">
+        ¿Es legal usar este software de predicción de sentencias en mi estudio?
+      </div>
+      <div class="chat-bubble ai">
+        Según el Anexo III del EU AI Act, los sistemas que asisten en interpretación de
+        hechos y aplicación de la ley son de <strong>Alto Riesgo</strong>. Esto significa que
+        tu proveedor debe entregarte: (1) documentación técnica completa, (2) métricas de
+        sesgo por grupo protegido, (3) mecanismos de supervisión humana efectiva...
+        <div class="chat-suggestion">
+          <strong>Prueba tú mismo</strong>
+          Pregúntame: "¿Qué cláusulas debo incluir en el contrato con mi proveedor de IA?" · "¿Cómo audito un sistema de análisis de contratos?" · "¿Qué es el derecho a la explicabilidad?"
+        </div>
+      </div>
+    </div>
+    <div class="ai-footer">
+      En desarrollo — Suscríbete para acceso anticipado a la versión beta
+    </div>
+  </div>
 </section>
-<!-- NOTICIAS -->
+
+<!-- ════════════════ NOTICIAS ════════════════ -->
 <section id="noticias" class="news-section">
-<div class="news-header">
-<span class="section-label">05. Actualidad</span>
-<h2>Noticias y Desarrollos en IA</h2>
-<p>
-Seguimiento automático de noticias sobre inteligencia artificial, auditoría algorítmica
-y gobernanza tecnológica desde fuentes académicas y periodísticas de referencia.
-</p>
-</div>
-<div class="news-container">
-<div class="news-feed">
-<h3>📰 Últimas Noticias</h3>
-<div id="news-feed-container">
-<div class="loading">Cargando noticias recientes...</div>
-</div>
-</div>
-<aside class="analysis-box">
-<h3>Análisis CTS</h3>
-<p>Perspectivas críticas sobre desarrollos recientes en gobernanza de IA desde Ciencia, Tecnología y Sociedad.</p>
-<div class="analysis-item">
-<h4>🔍 Tema destacado</h4>
-<p>
-El AI Act europeo entró en vigencia pero la implementación revela tensiones entre
-compliance técnico y transformación democrática real de relaciones de poder algorítmico.
-</p>
-</div>
-<div class="analysis-item">
-<h4>📚 Lectura recomendada</h4>
-<p>
-<strong>"Algorithmic Governmentality in Latin America"</strong> (Ricaurte et al., 2024)
-analiza cómo imaginarios neocoloniales moldean adopción de IA en la región.
-</p>
-</div>
-</aside>
-</div>
+  <div class="news-header">
+    <span class="section-label">06. Actualidad</span>
+    <h2>Noticias y Desarrollos en IA</h2>
+    <p>
+      Seguimiento automático de noticias sobre inteligencia artificial, auditoría algorítmica
+      y gobernanza tecnológica desde fuentes académicas y periodísticas de referencia.
+    </p>
+  </div>
+  <div class="news-container">
+    <div class="news-feed">
+      <h3>📰 Últimas Noticias</h3>
+      <div id="news-feed-container">
+        <div class="loading">Cargando noticias recientes...</div>
+      </div>
+    </div>
+    <aside class="analysis-box">
+      <h3>Análisis CTS</h3>
+      <p>Perspectivas críticas sobre desarrollos recientes en gobernanza de IA desde Ciencia, Tecnología y Sociedad.</p>
+      <div class="analysis-item">
+        <h4>🔍 Tema destacado</h4>
+        <p>
+          El AI Act europeo entró en vigencia pero la implementación revela tensiones entre
+          compliance técnico y transformación democrática real de relaciones de poder algorítmico.
+        </p>
+      </div>
+      <div class="analysis-item">
+        <h4>📚 Lectura recomendada</h4>
+        <p>
+          <strong>"Algorithmic Governmentality in Latin America"</strong> (Ricaurte et al., 2024)
+          analiza cómo imaginarios neocoloniales moldean adopción de IA en la región.
+        </p>
+      </div>
+    </aside>
+  </div>
 </section>
-<!-- AUTORA -->
+
+<!-- ════════════════ AUTORA ════════════════ -->
 <section id="autora" class="author-section">
-<span class="section-label">06. Autora</span>
-<div class="author-content">
-<div class="author-img">👤</div>
-<div class="author-info">
-<h3>Paola A. Robayo Galán</h3>
-<div class="author-title">Investigadora CTS · Legaltech</div>
-<p class="author-bio">
-Candidata a Magíster en Ciencia, Tecnología y Sociedad en Universidad Alberto Hurtado.
-Su investigación se centra en la intersección entre derecho, tecnología y justicia social,
-con énfasis en auditoría crítica de sistemas algorítmicos desde perspectivas del Sur Global.
-</p>
-<p class="author-bio">
-PACSEJ es su proyecto de tesis, que propone herramientas de gobernanza algorítmica accesibles
-para operadores jurídicos sin formación técnica en machine learning, integrando teorías de
-coproducción (Jasanoff), punto de vista feminista (Harding) y cosmotécnica (Hui).
-</p>
-<div class="author-links">
-<a href="mailto:contacto@pacsej.cl" class="author-link">Contacto</a>
-<a href="tesis.html" class="author-link">Marco Teórico Completo</a>
-</div>
-</div>
-</div>
+  <span class="section-label">07. Autora</span>
+  <div class="author-content">
+    <div class="author-img">👤</div>
+    <div class="author-info">
+      <h3>Paola A. Robayo Galán</h3>
+      <div class="author-speciality">Especialista en Gobernanza de IA y Auditoría Sociotécnica</div>
+      <div class="author-subtitle">Candidata a Magíster en CTS · Universidad Alberto Hurtado · Investigadora Legaltech</div>
+      <p class="author-bio">
+        Su investigación se centra en la intersección entre derecho, tecnología y justicia social,
+        con énfasis en auditoría crítica de sistemas algorítmicos desde perspectivas del Sur Global.
+        Combina teoría sociotécnica con aplicación práctica en compliance algorítmico para estudios
+        jurídicos y organismos institucionales.
+      </p>
+      <p class="author-bio">
+        PACSEJ es su proyecto de tesis, que propone herramientas de gobernanza algorítmica accesibles
+        para operadores jurídicos sin formación técnica en machine learning, integrando teorías de
+        coproducción (Jasanoff), punto de vista feminista (Harding) y cosmotécnica (Hui).
+      </p>
+      <div class="author-credentials">
+        <span class="author-cred">Universidad Alberto Hurtado</span>
+        <span class="author-cred">Magíster CTS</span>
+        <span class="author-cred">Gobernanza de IA</span>
+        <span class="author-cred">EU AI Act Compliance</span>
+      </div>
+      <div class="author-links">
+        <a href="mailto:contacto@pacsej.cl" class="author-link">Contacto</a>
+        <a href="tesis.html" class="author-link">Marco Teórico Completo</a>
+      </div>
+    </div>
+  </div>
 </section>
-<!-- CTA FINAL -->
+
+<!-- ════════════════ CTA FINAL ════════════════ -->
 <section class="cta-section">
-<h2>¿Tu sistema cumple con los estándares?</h2>
-<p>Aplica el protocolo PACSEJ en 30 minutos · 16-18 preguntas · Diagnóstico inmediato</p>
-<a href="https://form.typeform.com/to/lwooln58" target="_blank" class="btn-large">REALIZAR EL TEST AHORA</a>
+  <h2>¿Tu sistema cumple con los estándares?</h2>
+  <p>Aplica el protocolo PACSEJ en 30 minutos · Informe de criticidad inmediato · Sin registro requerido</p>
+  <a href="https://form.typeform.com/to/lwooln58" target="_blank" class="btn-large">
+    Obtener Diagnóstico de Cumplimiento Gratuito
+  </a>
+  <div class="cta-note">16–18 preguntas · Gratis · Alineado con EU AI Act y GDPR</div>
 </section>
-<!-- FOOTER -->
+
+<!-- ════════════════ FOOTER ════════════════ -->
 <footer>
-<div class="footer-main">PACSEJ — Protocolo de Auditoría Crítica de Sesgoritmos Jurídicos</div>
-<div class="footer-sub">
-Desarrollado por <strong>Paola A. Robayo Galán</strong><br>
-Tesis de Maestría en Ciencia, Tecnología y Sociedad<br>
-Universidad Alberto Hurtado · Santiago, Chile
-</div>
-<div class="footer-legal">
-© 2026 · Supervisión académica: Leandro Rodríguez Medina
-</div>
+  <div class="footer-main">PACSEJ — Protocolo de Auditoría Crítica de Sesgoritmos Jurídicos</div>
+  <div class="footer-sub">
+    Desarrollado por <strong>Paola A. Robayo Galán</strong><br>
+    Especialista en Gobernanza de IA · Tesis de Maestría en CTS<br>
+    Universidad Alberto Hurtado · Santiago, Chile
+  </div>
+  <div class="footer-legal">
+    © 2026 · Supervisión académica: Leandro Rodríguez Medina · Alineado con Reglamento (UE) 2024/1689
+  </div>
 </footer>
-<!-- JAVASCRIPT PARA NOTICIAS AUTOMÁTICAS -->
+
+<!-- ════════════════ JS NOTICIAS ════════════════ -->
 <script>
 async function loadNews() {
 const feedContainer = document.getElementById('news-feed-container');
@@ -1055,10 +1466,7 @@ const responses = await Promise.all(
 feeds.map(feed =>
 fetch(feed.url)
 .then(res => res.json())
-.then(data => ({
-...feed,
-items: data.items || []
-}))
+.then(data => ({ ...feed, items: data.items || [] }))
 .catch(() => ({ ...feed, items: [] }))
 )
 );
@@ -1078,7 +1486,7 @@ excerpt: stripHtml(item.description || item.content || '').slice(0, 150) + '...'
 allNews.sort((a, b) => b.date - a.date);
 allNews = allNews.slice(0, 8);
 if (allNews.length === 0) {
-feedContainer.innerHTML = '<div class="loading">No se pudieron cargar noticias. Intentá recargar la página.</div>';
+feedContainer.innerHTML = '<div class="loading">No se pudieron cargar noticias. Intenta recargar la página.</div>';
 return;
 }
 feedContainer.innerHTML = allNews.map(news => `
@@ -1093,7 +1501,7 @@ feedContainer.innerHTML = allNews.map(news => `
 `).join('');
 } catch (error) {
 console.error('Error cargando noticias:', error);
-feedContainer.innerHTML = '<div class="loading">Error al cargar noticias. Por favor recargá la página.</div>';
+feedContainer.innerHTML = '<div class="loading">Error al cargar noticias. Por favor recarga la página.</div>';
 }
 }
 function stripHtml(html) {
@@ -1103,17 +1511,12 @@ return tmp.textContent || tmp.innerText || '';
 }
 function formatDate(date) {
 const now = new Date();
-const diffTime = Math.abs(now - date);
-const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+const diffDays = Math.floor(Math.abs(now - date) / (1000 * 60 * 60 * 24));
 if (diffDays === 0) return 'Hoy';
 if (diffDays === 1) return 'Ayer';
 if (diffDays < 7) return `Hace ${diffDays} días`;
 if (diffDays < 30) return `Hace ${Math.floor(diffDays / 7)} semanas`;
-return date.toLocaleDateString('es-ES', {
-year: 'numeric',
-month: 'long',
-day: 'numeric'
-});
+return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 if (document.readyState === 'loading') {
 document.addEventListener('DOMContentLoaded', loadNews);
