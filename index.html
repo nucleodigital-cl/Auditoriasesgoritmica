@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PACSEJ v3.0 - Auditoría IA</title>
+    <style>
+        :root { --primary: #1a1a2e; --accent: #e94560; --bg: #f4f4f9; }
+        body { font-family: sans-serif; background: var(--bg); padding: 20px; color: #333; }
+        .card { background: white; border-radius: 15px; padding: 25px; border: 1px solid #d1d1e9; max-width: 700px; margin: 20px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 1em; }
+        button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { opacity: 0.9; }
+        #seccion-auditoria { display: none; margin-top: 40px; border-top: 2px solid #eee; padding-top: 20px; }
+        .pregunta { margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #eee; }
+        .opciones-row { display: flex; gap: 10px; }
+        .opciones-row input { display: none; }
+        .opciones-row label { background: #eee; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8em; }
+        .opciones-row input:checked + label { background: #3498db; color: white; }
+        #resultado-final { display: none; padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="escaner">
+    <h3>🛡️ Escáner Rápido de Riesgo (EU AI Act)</h3>
+    <p>Responde 3 preguntas para evaluar tu software legal.</p>
+    <label>1. ¿Toma decisiones sobre perfiles o predice riesgos?</label>
+    <select id="q1"><option value="0">No</option><option value="high">Sí</option></select>
+    <label>2. ¿Es transparente el algoritmo?</label>
+    <select id="q2"><option value="0">Sí</option><option value="med">No (Caja Negra)</option></select>
+    <label>3. ¿Hay supervisión humana?</label>
+    <select id="q3"><option value="0">Sí</option><option value="high">No (Automatizado)</option></select>
+    <button onclick="evaluarRapido()">ANALIZAR RIESGO</button>
+
+    <div id="res-rapido" style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center;">
+        <h4 id="status-rapido"></h4>
+        <p id="desc-rapido"></p>
+        <button onclick="mostrarAuditoria()" style="background: var(--accent);">INICIAR AUDITORÍA COMPLETA PACSEJ v3.0</button>
+    </div>
+</div>
+
+<div class="card" id="seccion-auditoria">
+    <h2 style="text-align: center;">📑 Auditoría Ciudadana PACSEJ</h2>
+    <div id="preguntas-container"></div>
+    <button onclick="calcularFinal()" style="background: #27ae60; margin-top: 20px;">VER RESULTADO FINAL Y SESGORITMOS</button>
+    
+    <div id="resultado-final">
+        <h2 id="final-label"></h2>
+        <p id="final-text"></p>
+        <div id="sesgoritmos" style="text-align: left; font-size: 0.9em; margin-top: 15px;"></div>
+    </div>
+</div>
+
+<script>
+    const preguntas = [
+        "¿Sabes qué nombre tiene el programa y para qué se usa?",
+        "¿Te explicaron cómo toma las decisiones?",
+        "¿Entendiste quién es responsable si hay un error?",
+        "¿Invitaron a ciudadanos a probar el sistema?",
+        "¿Decide sobre la vida de miles de personas?",
+        "¿Puedes hablar con una PERSONA real para corregir errores?",
+        "¿Se revisa el programa para que no sea injusto?",
+        "¿Se evaluó para no discriminar?",
+        "¿Hay un canal fácil para reclamar?",
+        "¿Expertos independientes dicen que es seguro?"
+    ];
+
+    function evaluarRapido() {
+        const q1 = document.getElementById('q1').value;
+        const q3 = document.getElementById('q3').value;
+        const res = document.getElementById('res-rapido');
+        res.style.display = 'block';
+        if(q1==='high' || q3==='high') {
+            res.style.background = '#ffdada';
+            document.getElementById('status-rapido').innerText = "⚠️ RIESGO ALTO";
+        } else {
+            res.style.background = '#d4edda';
+            document.getElementById('status-rapido').innerText = "✅ RIESGO MÍNIMO / MEDIO";
+        }
+    }
+
+    function mostrarAuditoria() {
+        document.getElementById('seccion-auditoria').style.display = 'block';
+        const container = document.getElementById('preguntas-container');
+        container.innerHTML = preguntas.map((p, i) => `
+            <div class="pregunta">
+                <p>${p}</p>
+                <div class="opciones-row">
+                    <input type="radio" name="p${i}" value="4" id="p${i}s"><label for="p${i}s">SÍ</label>
+                    <input type="radio" name="p${i}" value="1" id="p${i}n"><label for="p${i}n">NO</label>
+                    <input type="radio" name="p${i}" value="0" id="p${i}x"><label for="p${i}x">NO SÉ</label>
+                </div>
+            </div>
+        `).join('');
+        window.scrollTo({ top: document.getElementById('seccion-auditoria').offsetTop, behavior: 'smooth' });
+    }
+
+    function calcularFinal() {
+        const checked = document.querySelectorAll('input[type="radio"]:checked');
+        let score = 0; let ns = 0;
+        checked.forEach(c => { score += parseInt(c.value); if(c.value == "0") ns++; });
+        
+        const pct = (score / 40) * 100;
+        const resDiv = document.getElementById('resultado-final');
+        resDiv.style.display = 'block';
+        
+        if(pct >= 66) { resDiv.style.background="#d4edda"; document.getElementById('final-label').innerText = "RIESGO BAJO/LIMITADO"; }
+        else { resDiv.style.background="#ffdada"; document.getElementById('final-label').innerText = "RIESGO ALTO/INACEPTABLE"; }
+        
+        document.getElementById('sesgoritmos').innerHTML = ns > 0 ? "<b>Alerta:</b> Tienes sesgo de opacidad por falta de información." : "No se detectaron sesgos críticos.";
+    }
+</script>
+</body>
+</html>
