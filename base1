@@ -27,7 +27,10 @@
     <div id="resultado" style="display:none; margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center;">
         <h4 id="status-text" style="margin: 0;"></h4>
         <p id="desc-text" style="font-size: 0.9em;"></p>
-        <a href="https://form.typeform.com/to/lwooln58" style="display: inline-block; background: #e94560; color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; margin-top: 10px;">Realizar Auditoría PACSEJ Completa</a>
+        
+        <a id="btn-diagnostico" href="auditoria-ia.html" style="display: inline-block; background: #e94560; color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; margin-top: 10px;">
+            Iniciar Auditoría PACSEJ v3.0
+        </a>
     </div>
 </div>
 
@@ -39,6 +42,7 @@ function evaluarRiesgo() {
     const resDiv = document.getElementById('resultado');
     const status = document.getElementById('status-text');
     const desc = document.getElementById('desc-text');
+    const btn = document.getElementById('btn-diagnostico');
 
     resDiv.style.display = 'block';
 
@@ -46,17 +50,20 @@ function evaluarRiesgo() {
         resDiv.style.background = '#ffdada';
         status.innerText = "⚠️ RIESGO ALTO (Art. 6 EU AI Act)";
         status.style.color = "#a30000";
-        desc.innerText = "Su sistema podría requerir una auditoría obligatoria y registro ante autoridades europeas.";
+        desc.innerText = "Su sistema requiere una auditoría técnica profunda. Use el diagnóstico gratuito para detectar sesgos específicos.";
+        btn.innerText = "Obtener Diagnóstico Gratuito (PACSEJ)";
     } else if (q2 === 'med') {
         resDiv.style.background = '#fff4d1';
         status.innerText = "🟡 RIESGO LIMITADO / MEDIO";
         status.style.color = "#856404";
-        desc.innerText = "La falta de transparencia es un sesgoritmo de opacidad. Se recomienda revisión de cláusulas contractuales.";
+        desc.innerText = "La opacidad detectada sugiere riesgos de cumplimiento. Realice el test completo para validar la transparencia.";
+        btn.innerText = "Iniciar Auditoría de Transparencia";
     } else {
         resDiv.style.background = '#d4edda';
         status.innerText = "✅ RIESGO MÍNIMO";
         status.style.color = "#155724";
-        desc.innerText = "El sistema parece cumplir con los estándares básicos, pero se recomienda monitoreo constante.";
+        desc.innerText = "El sistema parece estable, pero el cumplimiento ético es continuo. Valide su sistema con nuestro protocolo.";
+        btn.innerText = "Validar con Protocolo PACSEJ";
     }
 }
 </script>
