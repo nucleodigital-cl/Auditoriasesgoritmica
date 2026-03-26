@@ -28,7 +28,7 @@
         <h4 id="status-text" style="margin: 0;"></h4>
         <p id="desc-text" style="font-size: 0.9em;"></p>
         
-        <a id="btn-diagnostico" href="auditoria-ia.html" style="display: inline-block; background: #e94560; color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; margin-top: 10px;">
+        <a id="btn-diagnostico" href="./auditoria-ia.html" style="display: inline-block; background: #e94560; color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; margin-top: 10px;">
             Iniciar Auditoría PACSEJ v3.0
         </a>
     </div>
@@ -45,6 +45,9 @@ function evaluarRiesgo() {
     const btn = document.getElementById('btn-diagnostico');
 
     resDiv.style.display = 'block';
+
+    // Limpiamos cualquier rastro de redirección previa forzando el href correcto
+    btn.setAttribute('href', './auditoria-ia.html');
 
     if (q1 === 'high' || q3 === 'high') {
         resDiv.style.background = '#ffdada';
