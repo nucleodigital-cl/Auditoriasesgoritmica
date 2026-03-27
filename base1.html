@@ -1,72 +1,124 @@
+
 <div id="pacsej-scanner" style="background: #f4f4f9; border-radius: 15px; padding: 25px; border: 1px solid #d1d1e9; font-family: sans-serif; max-width: 600px; margin: 20px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+
     <h3 style="color: #1a1a2e; margin-top: 0;">🛡️ Escáner Rápido de Riesgo (EU AI Act)</h3>
+
     <p style="font-size: 0.9em; color: #4a4a6a;">Responde 3 preguntas para evaluar el nivel de criticidad de tu software legal.</p>
+
     
+
     <div id="questions">
+
         <label>1. ¿El software toma decisiones sobre perfiles de personas o predice riesgos (ej. reincidencia, crédito)?</label><br>
+
         <select id="q1" style="width: 100%; margin: 10px 0; padding: 8px; border-radius: 5px;">
+
             <option value="0">No</option>
+
             <option value="high">Sí, predice comportamientos</option>
+
         </select>
+
+
 
         <label>2. ¿El proveedor entrega documentación clara sobre cómo se entrenó el algoritmo?</label><br>
+
         <select id="q2" style="width: 100%; margin: 10px 0; padding: 8px; border-radius: 5px;">
+
             <option value="0">Sí, es transparente</option>
+
             <option value="med">No, es una "caja negra" (opaco)</option>
+
         </select>
+
+
 
         <label>3. ¿Existe supervisión humana directa antes de aplicar el resultado del software?</label><br>
+
         <select id="q3" style="width: 100%; margin: 10px 0; padding: 8px; border-radius: 5px;">
+
             <option value="0">Sí</option>
+
             <option value="high">No, es automatizado</option>
+
         </select>
 
+
+
         <button onclick="evaluarRiesgo()" style="background: #1a1a2e; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px;">ANALIZAR NIVEL DE RIESGO</button>
+
     </div>
+
+
 
     <div id="resultado" style="display:none; margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center;">
+
         <h4 id="status-text" style="margin: 0;"></h4>
+
         <p id="desc-text" style="font-size: 0.9em;"></p>
-        
-        <a id="btn-diagnostico" href="./auditoria-ia.html" style="display: inline-block; background: #e94560; color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; margin-top: 10px;">
-            Iniciar Auditoría PACSEJ v3.0
-        </a>
+
+        <a href="https://form.typeform.com/to/lwooln58" style="display: inline-block; background: #e94560; color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; margin-top: 10px;">Realizar Auditoría PACSEJ Completa</a>
+
     </div>
+
 </div>
 
+
+
 <script>
+
 function evaluarRiesgo() {
+
     const q1 = document.getElementById('q1').value;
+
     const q2 = document.getElementById('q2').value;
+
     const q3 = document.getElementById('q3').value;
+
     const resDiv = document.getElementById('resultado');
+
     const status = document.getElementById('status-text');
+
     const desc = document.getElementById('desc-text');
-    const btn = document.getElementById('btn-diagnostico');
+
+
 
     resDiv.style.display = 'block';
 
-    // Limpiamos cualquier rastro de redirección previa forzando el href correcto
-    btn.setAttribute('href', './auditoria-ia.html');
+
 
     if (q1 === 'high' || q3 === 'high') {
+
         resDiv.style.background = '#ffdada';
+
         status.innerText = "⚠️ RIESGO ALTO (Art. 6 EU AI Act)";
+
         status.style.color = "#a30000";
-        desc.innerText = "Su sistema requiere una auditoría técnica profunda. Use el diagnóstico gratuito para detectar sesgos específicos.";
-        btn.innerText = "Obtener Diagnóstico Gratuito (PACSEJ)";
+
+        desc.innerText = "Su sistema podría requerir una auditoría obligatoria y registro ante autoridades europeas.";
+
     } else if (q2 === 'med') {
+
         resDiv.style.background = '#fff4d1';
+
         status.innerText = "🟡 RIESGO LIMITADO / MEDIO";
+
         status.style.color = "#856404";
-        desc.innerText = "La opacidad detectada sugiere riesgos de cumplimiento. Realice el test completo para validar la transparencia.";
-        btn.innerText = "Iniciar Auditoría de Transparencia";
+
+        desc.innerText = "La falta de transparencia es un sesgoritmo de opacidad. Se recomienda revisión de cláusulas contractuales.";
+
     } else {
+
         resDiv.style.background = '#d4edda';
+
         status.innerText = "✅ RIESGO MÍNIMO";
+
         status.style.color = "#155724";
-        desc.innerText = "El sistema parece estable, pero el cumplimiento ético es continuo. Valide su sistema con nuestro protocolo.";
-        btn.innerText = "Validar con Protocolo PACSEJ";
+
+        desc.innerText = "El sistema parece cumplir con los estándares básicos, pero se recomienda monitoreo constante.";
+
     }
+
 }
+
 </script>
