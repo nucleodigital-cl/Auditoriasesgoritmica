@@ -1,171 +1,124 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoría Ciudadana PACSEJ v3.0</title>
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --bg: #f4f7f6;
-            --low-risk: #27ae60;
-            --limited-risk: #f1c40f;
-            --high-risk: #e67e22;
-            --unacceptable: #c0392b;
-        }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--primary); line-height: 1.6; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: var(--primary); margin-bottom: 10px; }
-        .description { font-style: italic; text-align: center; margin-bottom: 30px; color: #666; }
-        
-        .section-title { background: var(--primary); color: white; padding: 10px 15px; border-radius: 5px; margin-top: 25px; }
-        .question { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .question p { font-weight: 600; margin-bottom: 10px; }
-        
-        .options { display: flex; gap: 10px; flex-wrap: wrap; }
-        .options label { background: #eee; padding: 8px 15px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 0.9em; }
-        .options input { display: none; }
-        .options input:checked + label { background: var(--accent); color: white; }
+<div id="pacsej-scanner" style="background: #f4f4f9; border-radius: 15px; padding: 25px; border: 1px solid #d1d1e9; font-family: sans-serif; max-width: 600px; margin: 20px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
 
-        #module-selector { margin: 20px 0; padding: 15px; border: 2px solid var(--accent); border-radius: 8px; }
-        select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; }
+    <h3 style="color: #1a1a2e; margin-top: 0;">🛡️ Escáner Rápido de Riesgo (EU AI Act)</h3>
 
-        .btn-calculate { display: block; width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin-top: 30px; }
-        .btn-calculate:hover { background: #1a252f; }
+    <p style="font-size: 0.9em; color: #4a4a6a;">Responde 3 preguntas para evaluar el nivel de criticidad de tu software legal.</p>
 
-        #result-area { display: none; margin-top: 30px; padding: 25px; border-radius: 10px; text-align: center; }
-        .risk-badge { display: inline-block; padding: 10px 20px; border-radius: 50px; color: white; font-weight: bold; margin: 15px 0; font-size: 1.4em; }
-        .sesgoritmo { font-weight: bold; color: #c0392b; }
-    </style>
-</head>
-<body>
+    
 
-<div class="container">
-    <h1>🛡️ Cuestionario Ciudadano</h1>
-    <p class="description">¿Qué tan segura es la IA que estás usando? (PACSEJ v3.0)</p>
+    <div id="questions">
 
-    <div id="quiz-form">
-        <div class="section-title">📑 SECCIÓN 1: NÚCLEO COMÚN</div>
-        <div id="core-questions"></div>
+        <label>1. ¿El software toma decisiones sobre perfiles de personas o predice riesgos (ej. reincidencia, crédito)?</label><br>
 
-        <div class="section-title">🤖 SECCIÓN 2: ELIGE TU CASO</div>
-        <div id="module-selector">
-            <p>Selecciona el tipo de sistema que estás evaluando:</p>
-            <select id="module-choice" onchange="renderModule()">
-                <option value="A">MÓDULO A: IAs que responden dudas o escriben textos</option>
-                <option value="B">MÓDULO B: IA en el Trabajo</option>
-                <option value="C">MÓDULO C: IA en Juicios o Policías</option>
-                <option value="D">MÓDULO D: IA para Bonos y Ayuda Social</option>
-            </select>
-        </div>
-        <div id="module-questions"></div>
+        <select id="q1" style="width: 100%; margin: 10px 0; padding: 8px; border-radius: 5px;">
 
-        <button class="btn-calculate" onclick="calculateScore()">📊 Calcular Nivel de Riesgo</button>
+            <option value="0">No</option>
+
+            <option value="high">Sí, predice comportamientos</option>
+
+        </select>
+
+
+
+        <label>2. ¿El proveedor entrega documentación clara sobre cómo se entrenó el algoritmo?</label><br>
+
+        <select id="q2" style="width: 100%; margin: 10px 0; padding: 8px; border-radius: 5px;">
+
+            <option value="0">Sí, es transparente</option>
+
+            <option value="med">No, es una "caja negra" (opaco)</option>
+
+        </select>
+
+
+
+        <label>3. ¿Existe supervisión humana directa antes de aplicar el resultado del software?</label><br>
+
+        <select id="q3" style="width: 100%; margin: 10px 0; padding: 8px; border-radius: 5px;">
+
+            <option value="0">Sí</option>
+
+            <option value="high">No, es automatizado</option>
+
+        </select>
+
+
+
+        <button onclick="evaluarRiesgo()" style="background: #1a1a2e; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px;">ANALIZAR NIVEL DE RIESGO</button>
+
     </div>
 
-    <div id="result-area">
-        <h2 id="result-title">Tu Resultado</h2>
-        <div id="risk-label" class="risk-badge"></div>
-        <p id="result-text"></p>
-        <hr>
-        <p id="sesgoritmo-info"></p>
+
+
+    <div id="resultado" style="display:none; margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center;">
+
+        <h4 id="status-text" style="margin: 0;"></h4>
+
+        <p id="desc-text" style="font-size: 0.9em;"></p>
+
+        <a href="https://form.typeform.com/to/lwooln58" style="display: inline-block; background: #e94560; color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; margin-top: 10px;">Realizar Auditoría PACSEJ Completa</a>
+
     </div>
+
 </div>
 
+
+
 <script>
-    const coreData = [
-        "¿Sabes qué nombre tiene el programa y para qué se usa exactamente?",
-        "¿Te explicaron de forma sencilla cómo toma las decisiones (qué datos usa y qué busca)?",
-        "¿Leíste los “Términos y Condiciones” y entendiste quién es responsable si el programa comete un error?",
-        "¿Sabes si invitaron a ciudadanos a probar el sistema antes de lanzarlo?",
-        "¿Este sistema decide sobre la vida de miles de personas al mismo tiempo?",
-        "Si el programa se equivoca, ¿puedes hablar con una PERSONA real con poder de corregirlo?",
-        "¿Te han avisado si el programa se revisa seguido para que no sea injusto?",
-        "¿Te informaron si ha sido evaluado para no discriminar?",
-        "¿Existe un botón o correo fácil de encontrar para reclamar?",
-        "¿Sabes si expertos independientes han revisado este programa?"
-    ];
 
-    const modulesData = {
-        A: [
-            "¿El programa dice de qué ley o libro sacó la información?",
-            "¿Te avisa si su información está al día?",
-            "¿Queda registrado si un juez usó esta IA para tu trámite?",
-            "¿El programa fue entrenado con las leyes de TU PAÍS?",
-            "¿Te advierte que sus respuestas NO son consejos legales definitivos?",
-            "¿Te muestra las distintas opciones de interpretación de la ley?"
-        ],
-        B: [
-            "¿Estás seguro de que NO usa raza, género o edad para calificarte?",
-            "¿Sientes que el programa entiende dificultades (como vivir lejos)?",
-            "¿Los trabajadores pudieron opinar sobre cómo se mide su rendimiento?",
-            "¿El programa permite faltar por emergencia sin bajar el puntaje?",
-            "¿Puedes ver la “fórmula” exacta con la que te califican?",
-            "¿Sientes que para tener buena nota NO tienes que correr riesgos?",
-            "¿El programa asume que eres un “trabajador ideal” (24/7 sin familia)?",
-            "¿Sientes que un mal puntaje te encierra en un círculo de malos turnos?"
-        ],
-        C: [
-            "¿Los datos vienen de épocas donde la policía era injusta?",
-            "¿Se comprobó que no se equivoca más con personas de tu color de piel?",
-            "¿El programa explica qué significa ser persona “peligrosa”?",
-            "¿Se evaluó si afecta más a gente pobre sin abogados?",
-            "¿Puede un juez ignorar a la IA sin ser castigado?",
-            "¿Toma en cuenta la razón del error (pobreza, salud) o solo antecedentes?",
-            "¿Han seguido casos reales para ver si la predicción se cumplió?",
-            "¿Existe un plan para que el sistema aprenda de sus errores?"
-        ],
-        D: [
-            "¿Acepta personas sin internet o papeles perfectos (migrantes)?",
-            "¿Entiende que hay muchos tipos de familia?",
-            "¿Toma en cuenta si vives en el campo o lejos?",
-            "¿Las reglas se diseñaron pensando en quien más lo necesita?",
-            "¿Si te rechazan, te dan una lista clara de qué falló?",
-            "¿Sientes que si te rechazan una vez, te marca para el futuro?",
-            "¿Se revisa si los beneficios llegan a todos los barrios?"
-        ]
-    };
+function evaluarRiesgo() {
 
-    function createQuestionHTML(text, index, section) {
-        return `
-            <div class="question">
-                <p>${text}</p>
-                <div class="options">
-                    <input type="radio" name="${section}_${index}" value="4" id="${section}_${index}_si"><label for="${section}_${index}_si">SÍ</label>
-                    <input type="radio" name="${section}_${index}" value="1" id="${section}_${index}_no"><label for="${section}_${index}_no">NO</label>
-                    <input type="radio" name="${section}_${index}" value="0" id="${section}_${index}_ns"><label for="${section}_${index}_ns">NO SÉ / NO INFO</label>
-                </div>
-            </div>`;
+    const q1 = document.getElementById('q1').value;
+
+    const q2 = document.getElementById('q2').value;
+
+    const q3 = document.getElementById('q3').value;
+
+    const resDiv = document.getElementById('resultado');
+
+    const status = document.getElementById('status-text');
+
+    const desc = document.getElementById('desc-text');
+
+
+
+    resDiv.style.display = 'block';
+
+
+
+    if (q1 === 'high' || q3 === 'high') {
+
+        resDiv.style.background = '#ffdada';
+
+        status.innerText = "⚠️ RIESGO ALTO (Art. 6 EU AI Act)";
+
+        status.style.color = "#a30000";
+
+        desc.innerText = "Su sistema podría requerir una auditoría obligatoria y registro ante autoridades europeas.";
+
+    } else if (q2 === 'med') {
+
+        resDiv.style.background = '#fff4d1';
+
+        status.innerText = "🟡 RIESGO LIMITADO / MEDIO";
+
+        status.style.color = "#856404";
+
+        desc.innerText = "La falta de transparencia es un sesgoritmo de opacidad. Se recomienda revisión de cláusulas contractuales.";
+
+    } else {
+
+        resDiv.style.background = '#d4edda';
+
+        status.innerText = "✅ RIESGO MÍNIMO";
+
+        status.style.color = "#155724";
+
+        desc.innerText = "El sistema parece cumplir con los estándares básicos, pero se recomienda monitoreo constante.";
+
     }
 
-    function init() {
-        const coreContainer = document.getElementById('core-questions');
-        coreContainer.innerHTML = coreData.map((q, i) => createQuestionHTML(q, i, 'core')).join('');
-        renderModule();
-    }
+}
 
-    function renderModule() {
-        const mod = document.getElementById('module-choice').value;
-        const modContainer = document.getElementById('module-questions');
-        modContainer.innerHTML = modulesData[mod].map((q, i) => createQuestionHTML(q, i, 'mod')).join('');
-    }
-
-    function calculateScore() {
-        const answers = document.querySelectorAll('input[type="radio"]:checked');
-        let totalScore = 0;
-        let countNo = 0;
-        let countNoSe = 0;
-
-        answers.forEach(a => {
-            let val = parseInt(a.value);
-            totalScore += val;
-            if (val === 1) countNo++;
-            if (val === 0) countNoSe++;
-        });
-
-        const maxScore = (coreData.length + modulesData[document.getElementById('module-choice').value].length) * 4;
-        const percentage = (totalScore / maxScore) * 100;
-
-        displayResult(percentage, countNo, count
+</script>
